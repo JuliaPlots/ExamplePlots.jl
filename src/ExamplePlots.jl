@@ -1,5 +1,10 @@
 module ExamplePlots
 
-# package code goes here
+
+using Plots
+using Colors
+using Compat
+
+include("example_generation.jl")
 
 end # module
