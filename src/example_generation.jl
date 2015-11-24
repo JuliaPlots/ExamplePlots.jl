@@ -31,7 +31,7 @@ const examples = PlotExample[
               [
                 :(p = plot([sin,cos], zeros(0), leg=false)),
                 :(anim = Animation()),
-                :(for x in linspace(0, 10π, 200)
+                :(for x in linspace(0, 10π, 100)
                     push!(p, x, Float64[sin(x), cos(x)])
                     frame(anim)
                   end)
@@ -46,24 +46,28 @@ const examples = PlotExample[
               [
                 :(y = rand(100)),
                 :(plot(0:10:100,rand(11,4),lab="lines",w=3, palette=:grays, fill=(0.5,:auto))),
-                :(scatter!(y, z=abs(y-.5), m=(10,:heat), lab="grad"))
+                :(scatter!(y, zcolor=abs(y-.5), m=(:heat,0.8,stroke(1,:green)), ms=10*abs(y-0.5)+4, lab="grad"))
               ]),
   PlotExample("Global",
               "Change the guides/background/limits/ticks.  Convenience args `xaxis` and `yaxis` allow you to pass a tuple or value which will be mapped to the relevant args automatically.  The `xaxis` below will be replaced with `xlabel` and `xlims` args automatically during the preprocessing step. You can also use shorthand functions: `title!`, `xaxis!`, `yaxis!`, `xlabel!`, `ylabel!`, `xlims!`, `ylims!`, `xticks!`, `yticks!`",
               [
-                :(plot(rand(20,3), xaxis=("XLABEL",(-5,30),0:2:20,:flip), background_color = RGB(0.2,0.2,0.2), leg=false)),
+                :(y = rand(20,3)),
+                :(plot(y, xaxis=("XLABEL",(-5,30),0:2:20,:flip), background_color = RGB(0.2,0.2,0.2), leg=false)),
+                :(hline!(mean(y,1)+rand(1,3), line=(4,:dash,0.6,[:lightgreen :green :darkgreen]))),
+                :(vline!([5,10])),
                 :(title!("TITLE")),
                 :(yaxis!("YLABEL", :log10))
               ]),
   PlotExample("Two-axis",
               "Use the `axis` arguments.\n\nNote: Currently only supported with Qwt and PyPlot",
               [
-                :(plot(Vector[randn(100), randn(100)*100], axis = [:l :r], ylabel="LEFT", yrightlabel="RIGHT"))
+                :(plot(Vector[randn(100), randn(100)*100], axis = [:l :r], ylabel="LEFT", yrightlabel="RIGHT", xlabel="X", title="TITLE"))
               ]),
   PlotExample("Arguments",
               "Plot multiple series with different numbers of points.  Mix arguments that apply to all series (marker/markersize) with arguments unique to each series (colors).  Special arguments `line`, `marker`, and `fill` will automatically figure out what arguments to set (for example, we are setting the `linestyle`, `linewidth`, and `color` arguments with `line`.)  Note that we pass a matrix of colors, and this applies the colors to each series.",
               [
-                :(plot(Vector[rand(10), rand(20)], marker=(:ellipse,8), line=(:dot,3,[:black :orange])))
+                :(ys = Vector[rand(10), rand(20)]),
+                :(plot(ys, line=(:dot,4,[:black :orange]), marker=([:hex :d],12,0.8,stroke(3,:gray))))
               ]),
   PlotExample("Build plot in pieces",
               "Start with a base plot...",
@@ -78,7 +82,7 @@ const examples = PlotExample[
   PlotExample("Heatmaps",
               "",
               [
-                :(heatmap(randn(10000),randn(10000), nbins=100))
+                :(heatmap(randn(10000),randn(10000), nbins=20))
               ]),
   PlotExample("Line types",
               "",
@@ -112,7 +116,7 @@ const examples = PlotExample[
   PlotExample("Histogram",
               "",
               [
-                :(histogram(randn(1000), nbins=50))
+                :(histogram(randn(1000), nbins=20))
               ]),
   PlotExample("Subplots",
               """
@@ -163,8 +167,37 @@ const examples = PlotExample[
                        m=(Shape(verts),30,RGBA(0,0,0,0.2)),
                        bg=:pink, fg=:darkblue,
                        xlim = (0,1), ylim=(0,1), leg=false))
+              ]),
+
+  PlotExample("Contours",
+              "",
+              [
+                :(x = 1:0.3:20),
+                :(y = x),
+                :(f(x,y) = sin(x)+cos(y)),
+                :(contour(x, y, f, fill=true))
+              ]),
+
+  PlotExample("Pie",
+              "",
+              [
+                :(x = ["Nerds", "Hackers", "Scientists"]),
+                :(y = [0.4, 0.35, 0.25]),
+                :(pie(x, y, title="The Julia Community", l=0.5))
+              ]),
+
+  PlotExample("3D",
+              "",
+              [
+                :(n = 100),
+                :(ts = linspace(0,8π,n)),
+                :(x = ts .* map(cos,ts)),
+                :(y = 0.1ts .* map(sin,ts)),
+                :(z = 1:n),
+                :(plot(x, y, z, zcolor=reverse(z), m=(10,0.8,:blues,stroke(0)), leg=false, w=5)),
+                :(plot!(zeros(n),zeros(n),1:n, w=10))
               ])
-  
+        
 ]
 
 
