@@ -1,26 +1,21 @@
 
-# module PlotExamples
 
-# using Plots
-# using Colors
-# using Compat
-
-const DOCDIR = Pkg.dir("Plots") * "/docs"
-const IMGDIR = Pkg.dir("Plots") * "/img"
+const DOCDIR = Pkg.dir("ExamplePlots") * "/docs"
+const IMGDIR = Pkg.dir("ExamplePlots") * "/img"
 
 """
 Holds all data needed for a documentation example... header, description, and plotting expression (Expr)
 """
 type PlotExample
-  header::@compat(AbstractString)
-  desc::@compat(AbstractString)
+  header::AbstractString
+  desc::AbstractString
   exprs::Vector{Expr}
 end
 
 
 
-# the examples we'll run for each
-const examples = PlotExample[
+# the _examples we'll run for each
+const _examples = PlotExample[
   PlotExample("Lines",
               "A simple line plot of the columns.",
               [
@@ -226,7 +221,7 @@ function generate_markdown(pkgname::Symbol)
   write(md, "### Initialize\n\n```julia\nusing Plots\n$(pkgname)()\n```\n\n")
 
 
-  for (i,example) in enumerate(examples)
+  for (i,example) in enumerate(_examples)
 
     try
 
@@ -278,10 +273,10 @@ end
 # make and display one plot
 function test_examples(pkgname::Symbol, idx::Int; debug = true)
   Plots._debugMode.on = debug
-  println("Testing plot: $pkgname:$idx:$(examples[idx].header)")
+  println("Testing plot: $pkgname:$idx:$(_examples[idx].header)")
   backend(pkgname)
   backend()
-  map(eval, examples[idx].exprs)
+  map(eval, _examples[idx].exprs)
   plt = current()
   gui(plt)
   plt
@@ -291,8 +286,8 @@ end
 function test_examples(pkgname::Symbol; debug = false)
   Plots._debugMode.on = debug
   plts = Dict()
-  for i in 1:length(examples)
-    # if examples[i].header == "Subplots" && !subplotSupported()
+  for i in 1:length(_examples)
+    # if _examples[i].header == "Subplots" && !subplotSupported()
     #   break
     # end
 
@@ -301,7 +296,7 @@ function test_examples(pkgname::Symbol; debug = false)
       plts[i] = plt
     catch ex
       # TODO: put error info into markdown?
-      warn("Example $pkgname:$i:$(examples[i].header) failed with: $ex")
+      warn("Example $pkgname:$i:$(_examples[i].header) failed with: $ex")
     end
   end
   plts
@@ -333,72 +328,72 @@ end
 
 
 
-@compat const _ltdesc = Dict(
-    :none => "No line",
-    :line => "Lines with sorted x-axis",
-    :path => "Lines",
-    :steppre => "Step plot (vertical then horizontal)",
-    :steppost => "Step plot (horizontal then vertical)",
-    :sticks => "Vertical lines",
-    :scatter => "Points, no lines",
-    :heatmap => "Colored regions by density",
-    :hexbin => "Similar to heatmap",
-    :hist => "Histogram (doesn't use x)",
-    :bar => "Bar plot (centered on x values)",
-    :hline => "Horizontal line (doesn't use x)",
-    :vline => "Vertical line (doesn't use x)",
-    :ohlc => "Open/High/Low/Close chart (expects y is AbstractVector{Plots.OHLC})",
-  )
+# @compat const _ltdesc = Dict(
+#     :none => "No line",
+#     :line => "Lines with sorted x-axis",
+#     :path => "Lines",
+#     :steppre => "Step plot (vertical then horizontal)",
+#     :steppost => "Step plot (horizontal then vertical)",
+#     :sticks => "Vertical lines",
+#     :scatter => "Points, no lines",
+#     :heatmap => "Colored regions by density",
+#     :hexbin => "Similar to heatmap",
+#     :hist => "Histogram (doesn't use x)",
+#     :bar => "Bar plot (centered on x values)",
+#     :hline => "Horizontal line (doesn't use x)",
+#     :vline => "Vertical line (doesn't use x)",
+#     :ohlc => "Open/High/Low/Close chart (expects y is AbstractVector{Plots.OHLC})",
+#   )
 
-function buildReadme()
-  readme = readall("$DOCDIR/readme_template.md")
+# function buildReadme()
+#   readme = readall("$DOCDIR/readme_template.md")
 
-  # build keyword arg table
-  table = "Keyword | Default | Type | Aliases \n---- | ---- | ---- | ----\n"
-  allseries = merge(Plots._seriesDefaults, @compat(Dict(:line=>nothing, :marker=>nothing, :fill=>nothing)))
-  allplots = merge(Plots._plotDefaults, @compat(Dict(:xaxis=>nothing, :yaxis=>nothing)))
-  alldefs = merge(allseries, allplots)
-  for k in Plots.sortedkeys(alldefs)
-  # for d in (Plots._seriesDefaults, Plots._plotDefaults)
-  #   for k in Plots.sortedkeys(d)
-    aliasstr = createStringOfMarkDownSymbols(aliases(Plots._keyAliases, k))
-    table = string(table, "`:$k` | `$(alldefs[k])` | $(haskey(allseries,k) ? "Series" : "Plot") | $aliasstr  \n")
-    # end
-  end
-  readme = replace(readme, "[[KEYWORD_ARGS_TABLE]]", table)
+#   # build keyword arg table
+#   table = "Keyword | Default | Type | Aliases \n---- | ---- | ---- | ----\n"
+#   allseries = merge(Plots._seriesDefaults, @compat(Dict(:line=>nothing, :marker=>nothing, :fill=>nothing)))
+#   allplots = merge(Plots._plotDefaults, @compat(Dict(:xaxis=>nothing, :yaxis=>nothing)))
+#   alldefs = merge(allseries, allplots)
+#   for k in Plots.sortedkeys(alldefs)
+#   # for d in (Plots._seriesDefaults, Plots._plotDefaults)
+#   #   for k in Plots.sortedkeys(d)
+#     aliasstr = createStringOfMarkDownSymbols(aliases(Plots._keyAliases, k))
+#     table = string(table, "`:$k` | `$(alldefs[k])` | $(haskey(allseries,k) ? "Series" : "Plot") | $aliasstr  \n")
+#     # end
+#   end
+#   readme = replace(readme, "[[KEYWORD_ARGS_TABLE]]", table)
 
-  # build linetypes table
-  table = "Type | Desc | Aliases\n---- | ---- | ----\n"
-  for lt in Plots._allTypes
-    aliasstr = createStringOfMarkDownSymbols(aliases(Plots._typeAliases, lt))
-    table = string(table, "`:$lt` | $(_ltdesc[lt]) | $aliasstr  \n")
-  end
-  readme = replace(readme, "[[LINETYPES_TABLE]]", table)
+#   # build linetypes table
+#   table = "Type | Desc | Aliases\n---- | ---- | ----\n"
+#   for lt in Plots._allTypes
+#     aliasstr = createStringOfMarkDownSymbols(aliases(Plots._typeAliases, lt))
+#     table = string(table, "`:$lt` | $(_ltdesc[lt]) | $aliasstr  \n")
+#   end
+#   readme = replace(readme, "[[LINETYPES_TABLE]]", table)
 
-  # build linestyles table
-  table = "Type | Aliases\n---- | ----\n"
-  for s in Plots._allStyles
-    aliasstr = createStringOfMarkDownSymbols(aliases(Plots._styleAliases, s))
-    table = string(table, "`:$s` | $aliasstr  \n")
-  end
-  readme = replace(readme, "[[LINESTYLES_TABLE]]", table)
+#   # build linestyles table
+#   table = "Type | Aliases\n---- | ----\n"
+#   for s in Plots._allStyles
+#     aliasstr = createStringOfMarkDownSymbols(aliases(Plots._styleAliases, s))
+#     table = string(table, "`:$s` | $aliasstr  \n")
+#   end
+#   readme = replace(readme, "[[LINESTYLES_TABLE]]", table)
 
-  # build markers table
-  table = "Type | Aliases\n---- | ----\n"
-  for s in Plots._allMarkers
-    aliasstr = createStringOfMarkDownSymbols(aliases(Plots._markerAliases, s))
-    table = string(table, "`:$s` | $aliasstr  \n")
-  end
-  readme = replace(readme, "[[MARKERS_TABLE]]", table)
+#   # build markers table
+#   table = "Type | Aliases\n---- | ----\n"
+#   for s in Plots._allMarkers
+#     aliasstr = createStringOfMarkDownSymbols(aliases(Plots._markerAliases, s))
+#     table = string(table, "`:$s` | $aliasstr  \n")
+#   end
+#   readme = replace(readme, "[[MARKERS_TABLE]]", table)
 
-  readme_fn = Pkg.dir("Plots") * "/README.md"
-  f = open(readme_fn, "w")
-  write(f, readme)
-  close(f)
+#   readme_fn = Pkg.dir("Plots") * "/README.md"
+#   f = open(readme_fn, "w")
+#   write(f, readme)
+#   close(f)
 
-  gadfly()
-  Plots.dumpSupportGraphs()
-end
+#   gadfly()
+#   Plots.dumpSupportGraphs()
+# end
 
 default(size=(500,300))
 
