@@ -28,8 +28,8 @@ Easily build animations.  (`convert` or `ffmpeg` must be available to generate t
 ```julia
 p = plot([sin,cos],zeros(0),leg=false)
 anim = Animation()
-for x = linspace(0,10π,200) # /home/tom/.julia/v0.4/Plots/docs/example_generation.jl, line 35:
-    push!(p,x,Float64[sin(x),cos(x)]) # /home/tom/.julia/v0.4/Plots/docs/example_generation.jl, line 36:
+for x = linspace(0,10π,100) # /Users/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 30:
+    push!(p,x,Float64[sin(x),cos(x)]) # /Users/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 31:
     frame(anim)
 end
 ```
@@ -41,7 +41,7 @@ end
 Plot function pair (x(u), y(u)).
 
 ```julia
-plot(sin,(x->begin  # /home/tom/.julia/v0.4/Plots/docs/example_generation.jl, line 42:
+plot(sin,(x->begin  # /Users/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 37:
             sin(2x)
         end),0,2π,line=4,leg=false,fill=(0,:orange))
 ```
@@ -55,7 +55,7 @@ Access predefined palettes (or build your own with the `colorscheme` method).  L
 ```julia
 y = rand(100)
 plot(0:10:100,rand(11,4),lab="lines",w=3,palette=:grays,fill=(0.5,:auto))
-scatter!(y,z=abs(y - 0.5),m=(10,:heat),lab="grad")
+scatter!(y,zcolor=abs(y - 0.5),m=(:heat,0.8,stroke(1,:green)),ms=10 * abs(y - 0.5) + 4,lab="grad")
 ```
 
 ![](../img/gadfly/gadfly_example_4.png)
@@ -65,7 +65,10 @@ scatter!(y,z=abs(y - 0.5),m=(10,:heat),lab="grad")
 Change the guides/background/limits/ticks.  Convenience args `xaxis` and `yaxis` allow you to pass a tuple or value which will be mapped to the relevant args automatically.  The `xaxis` below will be replaced with `xlabel` and `xlims` args automatically during the preprocessing step. You can also use shorthand functions: `title!`, `xaxis!`, `yaxis!`, `xlabel!`, `ylabel!`, `xlims!`, `ylims!`, `xticks!`, `yticks!`
 
 ```julia
-plot(rand(20,3),xaxis=("XLABEL",(-5,30),0:2:20,:flip),background_color=RGB(0.2,0.2,0.2),leg=false)
+y = rand(20,3)
+plot(y,xaxis=("XLABEL",(-5,30),0:2:20,:flip),background_color=RGB(0.2,0.2,0.2),leg=false)
+hline!(mean(y,1) + rand(1,3),line=(4,:dash,0.6,[:lightgreen :green :darkgreen]))
+vline!([5,10])
 title!("TITLE")
 yaxis!("YLABEL",:log10)
 ```
@@ -79,7 +82,7 @@ Use the `axis` arguments.
 Note: Currently only supported with Qwt and PyPlot
 
 ```julia
-plot(Vector[randn(100),randn(100) * 100],axis=[:l :r],ylabel="LEFT",yrightlabel="RIGHT")
+plot(Vector[randn(100),randn(100) * 100],axis=[:l :r],ylabel="LEFT",yrightlabel="RIGHT",xlabel="X",title="TITLE")
 ```
 
 ![](../img/gadfly/gadfly_example_6.png)
@@ -89,7 +92,8 @@ plot(Vector[randn(100),randn(100) * 100],axis=[:l :r],ylabel="LEFT",yrightlabel=
 Plot multiple series with different numbers of points.  Mix arguments that apply to all series (marker/markersize) with arguments unique to each series (colors).  Special arguments `line`, `marker`, and `fill` will automatically figure out what arguments to set (for example, we are setting the `linestyle`, `linewidth`, and `color` arguments with `line`.)  Note that we pass a matrix of colors, and this applies the colors to each series.
 
 ```julia
-plot(Vector[rand(10),rand(20)],marker=(:ellipse,8),line=(:dot,3,[:black :orange]))
+ys = Vector[rand(10),rand(20)]
+plot(ys,line=(:dot,4,[:black :orange]),marker=([:hex :d],12,0.8,stroke(3,:gray)))
 ```
 
 ![](../img/gadfly/gadfly_example_7.png)
@@ -119,7 +123,7 @@ scatter!(rand(100),markersize=6,c=:orange)
 
 
 ```julia
-heatmap(randn(10000),randn(10000),nbins=100)
+heatmap(randn(10000),randn(10000),nbins=20)
 ```
 
 ![](../img/gadfly/gadfly_example_10.png)
@@ -178,7 +182,7 @@ bar(randn(999))
 
 
 ```julia
-histogram(randn(1000),nbins=50)
+histogram(randn(1000),nbins=20)
 ```
 
 ![](../img/gadfly/gadfly_example_15.png)
@@ -239,11 +243,42 @@ plot(0.1:0.2:0.9,0.7 * rand(5) + 0.15,l=(3,:dash,:lightblue),m=(Shape(verts),30,
 
 ![](../img/gadfly/gadfly_example_21.png)
 
-- Supported arguments: `annotation`, `background_color`, `color`, `color_palette`, `fillcolor`, `fillopacity`, `fillrange`, `foreground_color`, `grid`, `group`, `guidefont`, `label`, `layout`, `legend`, `legendfont`, `lineopacity`, `linestyle`, `linetype`, `linewidth`, `markercolor`, `markeropacity`, `markershape`, `markersize`, `n`, `nbins`, `nc`, `nr`, `show`, `size`, `smooth`, `tickfont`, `title`, `windowtitle`, `x`, `xflip`, `xlabel`, `xlims`, `xscale`, `xticks`, `y`, `yflip`, `ylabel`, `ylims`, `yscale`, `yticks`, `z`
+### Contours
+
+
+
+```julia
+x = 1:0.3:20
+y = x
+f(x,y) = begin  # /Users/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 172:
+        sin(x) + cos(y)
+    end
+contour(x,y,f,fill=true)
+```
+
+![](../img/gadfly/gadfly_example_22.png)
+
+### 3D
+
+
+
+```julia
+n = 100
+ts = linspace(0,8π,n)
+x = ts .* map(cos,ts)
+y = (0.1ts) .* map(sin,ts)
+z = 1:n
+plot(x,y,z,zcolor=reverse(z),m=(10,0.8,:blues,stroke(0)),leg=false,w=5)
+plot!(zeros(n),zeros(n),1:n,w=10)
+```
+
+![](../img/gadfly/gadfly_example_24.png)
+
+- Supported arguments: `annotation`, `background_color`, `color_palette`, `fillalpha`, `fillcolor`, `fillrange`, `foreground_color`, `grid`, `group`, `guidefont`, `label`, `layout`, `legend`, `legendfont`, `linealpha`, `linecolor`, `linestyle`, `linetype`, `linewidth`, `markeralpha`, `markercolor`, `markershape`, `markersize`, `markerstrokecolor`, `markerstrokewidth`, `n`, `nbins`, `nc`, `nlevels`, `nr`, `show`, `size`, `smooth`, `tickfont`, `title`, `windowtitle`, `x`, `xflip`, `xlabel`, `xlims`, `xscale`, `xticks`, `y`, `yflip`, `ylabel`, `ylims`, `yscale`, `yticks`, `z`, `zcolor`
 - Supported values for axis: `:auto`, `:left`
-- Supported values for linetype: `:bar`, `:heatmap`, `:hexbin`, `:hist`, `:hline`, `:line`, `:none`, `:ohlc`, `:path`, `:scatter`, `:steppost`, `:steppre`, `:sticks`, `:vline`
+- Supported values for linetype: `:bar`, `:contour`, `:heatmap`, `:hexbin`, `:hist`, `:hline`, `:line`, `:none`, `:path`, `:scatter`, `:steppost`, `:steppre`, `:sticks`, `:vline`
 - Supported values for linestyle: `:auto`, `:dash`, `:dashdot`, `:dashdotdot`, `:dot`, `:solid`
 - Supported values for marker: `:Plots.Shape`, `:auto`, `:cross`, `:diamond`, `:dtriangle`, `:ellipse`, `:heptagon`, `:hexagon`, `:none`, `:octagon`, `:pentagon`, `:rect`, `:star4`, `:star5`, `:star6`, `:star7`, `:star8`, `:utriangle`, `:xcross`
 - Is `subplot`/`subplot!` supported? Yes
 
-(Automatically generated: 2015-10-26T13:59:43)
+(Automatically generated: 2015-12-07T23:34:56)
