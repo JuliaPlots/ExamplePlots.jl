@@ -36,12 +36,12 @@ Pkg.checkout("Plots", "dev")
 then get any plotting packages you need (obviously, you should get at least one backend).
 
 ```julia
+Pkg.add("PyPlot")
+Pkg.add("GR")
 Pkg.add("Gadfly")
 Pkg.add("Immerse")
-Pkg.add("PyPlot")
 Pkg.add("UnicodePlots")
 Pkg.add("Qwt")
-Pkg.add("Bokeh")
 ```
 
 ## Use
@@ -141,13 +141,16 @@ plot!(xlims = (0, 5.5), ylims = (-2.2, 6), xticks = 0:0.5:10, yticks = [0,1,5,10
 xaxis!("mylabel", :log10, :flip)
 ```
 
+## Subplots
+
 With `subplot`, create multiple plots at once, with flexible layout options:
 
 ```julia
 y = rand(100,3)
-subplot(y; n = 3)             # create an automatic grid, and let it figure out the shape
-subplot(y; n = 3, nr = 1)     # create an automatic grid, but fix the number of rows
-subplot(y; n = 3, nc = 1)     # create an automatic grid, but fix the number of columns
+subplot(y)                    # create an automatic grid, and let it figure out the shape
+subplot(y, n = 2)             # create two plots, the third series is added to the first plot
+subplot(y; nr = 1)            # create an automatic grid, but fix the number of rows
+subplot(y; nc = 1)            # create an automatic grid, but fix the number of columns
 subplot(y; layout = [1, 2])   # explicit layout.  Lists the number of plots in each row
 ```
 
@@ -155,7 +158,7 @@ __Tip__: You can call `subplot!(args...; kw...)` to add to an existing subplot.
 
 __Tip__: Calling `subplot!` on a `Plot` object, or `plot!` on a `Subplot` object will throw an error.
 
-Shorthands:
+## Shorthands
 
 ```julia
 scatter(args...; kw...)    = plot(args...; kw...,  linetype = :scatter)
@@ -189,7 +192,7 @@ yaxis!(args...)                           = plot!(yaxis = args)
 annotate!(anns)                           = plot!(annotation = anns)
 ```
 
-### Keyword arguments:
+## Keyword arguments:
 
 Keyword | Default | Type | Aliases 
 ---- | ---- | ---- | ----
@@ -257,7 +260,7 @@ Keyword | Default | Type | Aliases
 `:z` | `nothing` | Series | `:zs`  
 
 
-### Plot types:
+## Plot types:
 
 Type | Desc | Aliases
 ---- | ---- | ----
@@ -280,7 +283,7 @@ Type | Desc | Aliases
 `:scatter3d` | 3D scatter plot (uses z) |   
 
 
-### Line styles:
+## Line styles:
 
 Type | Aliases
 ---- | ----
@@ -292,7 +295,7 @@ Type | Aliases
 `:dashdotdot` | `:ddd`  
 
 
-### Markers:
+## Markers:
 
 Type | Aliases
 ---- | ----
@@ -320,6 +323,8 @@ __Tip__: With supported backends, you can pass a `Plots.Shape` object for the `m
 
 __Tip__: You can see the default value for a given argument with `default(arg::Symbol)`, and set the default value with `default(arg::Symbol, value)` or `default(; kw...)`.  For example set the default window size and whether we should show a legend with `default(size=(600,400), leg=false)`.
 
+## Magic Arguments
+
 __Tip__: There are some helper arguments you can set:  `xaxis`, `yaxis`, `line`, `marker`, `fill`.  These go through special preprocessing to extract values into individual arguments.  The order doesn't matter, and if you pass a single value it's equivalent to wrapping it in a Tuple.  Examples:
 
 ```
@@ -346,9 +351,10 @@ __Tip__: Not all features are supported for each backend, but you can see what's
 
 __Tip__: Call `gui()` to display the plot in a window.  Interactivity depends on backend.  Plotting at the REPL (without semicolon) implicitly calls `gui()`.
 
-### Animations
+## Animations
 
 Animations are created in 3 steps (see example #2):
+
 - Initialize an `Animation` object.
 - Save each frame of the animation with `frame(anim)`.
 - Convert the frames to an animated gif with `gif(anim, filename, fps=15)`
