@@ -15,7 +15,7 @@ A simple line plot of the columns.
 plot(Plots.fakedata(50,5),w=3)
 ```
 
-![](../img/qwt/qwt_example_1.png)
+![](img/qwt/qwt_example_1.png)
 
 ### Functions, adding data, and animations
 
@@ -34,7 +34,7 @@ for x = linspace(0,10π,200) # /home/tom/.julia/v0.4/Plots/docs/example_generati
 end
 ```
 
-![](../img/qwt/qwt_example_2.gif)
+![](img/qwt/qwt_example_2.gif)
 
 ### Parametric plots
 
@@ -46,7 +46,7 @@ plot(sin,(x->begin  # /home/tom/.julia/v0.4/Plots/docs/example_generation.jl, li
         end),0,2π,line=4,leg=false,fill=(0,:orange))
 ```
 
-![](../img/qwt/qwt_example_3.png)
+![](img/qwt/qwt_example_3.png)
 
 ### Colors
 
@@ -58,7 +58,7 @@ plot(0:10:100,rand(11,4),lab="lines",w=3,palette=:grays,fill=(0.5,:auto))
 scatter!(y,z=abs(y - 0.5),m=(10,:heat),lab="grad")
 ```
 
-![](../img/qwt/qwt_example_4.png)
+![](img/qwt/qwt_example_4.png)
 
 ### Global
 
@@ -70,7 +70,7 @@ title!("TITLE")
 yaxis!("YLABEL",:log10)
 ```
 
-![](../img/qwt/qwt_example_5.png)
+![](img/qwt/qwt_example_5.png)
 
 ### Two-axis
 
@@ -82,7 +82,7 @@ Note: Currently only supported with Qwt and PyPlot
 plot(Vector[randn(100),randn(100) * 100],axis=[:l :r],ylabel="LEFT",yrightlabel="RIGHT")
 ```
 
-![](../img/qwt/qwt_example_6.png)
+![](img/qwt/qwt_example_6.png)
 
 ### Arguments
 
@@ -92,7 +92,7 @@ Plot multiple series with different numbers of points.  Mix arguments that apply
 plot(Vector[rand(10),rand(20)],marker=(:ellipse,8),line=(:dot,3,[:black :orange]))
 ```
 
-![](../img/qwt/qwt_example_7.png)
+![](img/qwt/qwt_example_7.png)
 
 ### Build plot in pieces
 
@@ -102,7 +102,7 @@ Start with a base plot...
 plot(rand(100) / 3,reg=true,fill=(0,:green))
 ```
 
-![](../img/qwt/qwt_example_8.png)
+![](img/qwt/qwt_example_8.png)
 
 ### 
 
@@ -112,7 +112,7 @@ and add to it later.
 scatter!(rand(100),markersize=6,c=:orange)
 ```
 
-![](../img/qwt/qwt_example_9.png)
+![](img/qwt/qwt_example_9.png)
 
 ### Heatmaps
 
@@ -122,7 +122,7 @@ scatter!(rand(100),markersize=6,c=:orange)
 heatmap(randn(10000),randn(10000),nbins=100)
 ```
 
-![](../img/qwt/qwt_example_10.png)
+![](img/qwt/qwt_example_10.png)
 
 ### Line types
 
@@ -136,7 +136,7 @@ y = rand(20,n)
 plot(x,y,line=(types,3),lab=map(string,types),ms=15)
 ```
 
-![](../img/qwt/qwt_example_11.png)
+![](img/qwt/qwt_example_11.png)
 
 ### Line styles
 
@@ -147,7 +147,7 @@ styles = setdiff(supportedStyles(),[:auto])'
 plot(cumsum(randn(20,length(styles)),1),style=:auto,label=map(string,styles),w=5)
 ```
 
-![](../img/qwt/qwt_example_12.png)
+![](img/qwt/qwt_example_12.png)
 
 ### Marker types
 
@@ -161,7 +161,7 @@ y = repmat(reverse(x)',n,1)
 scatter(x,y,m=(8,:auto),lab=map(string,markers),bg=:linen)
 ```
 
-![](../img/qwt/qwt_example_13.png)
+![](img/qwt/qwt_example_13.png)
 
 ### Bar
 
@@ -171,7 +171,7 @@ x is the midpoint of the bar. (todo: allow passing of edges instead of midpoints
 bar(randn(999))
 ```
 
-![](../img/qwt/qwt_example_14.png)
+![](img/qwt/qwt_example_14.png)
 
 ### Histogram
 
@@ -181,7 +181,7 @@ bar(randn(999))
 histogram(randn(1000),nbins=50)
 ```
 
-![](../img/qwt/qwt_example_15.png)
+![](img/qwt/qwt_example_15.png)
 
 ### Subplots
 
@@ -194,7 +194,7 @@ histogram(randn(1000),nbins=50)
 subplot(randn(100,5),layout=[1,1,3],t=[:line :hist :scatter :step :bar],nbins=10,leg=false)
 ```
 
-![](../img/qwt/qwt_example_16.png)
+![](img/qwt/qwt_example_16.png)
 
 ### Adding to subplots
 
@@ -204,7 +204,7 @@ Note here the automatic grid layout, as well as the order in which new series ar
 subplot(Plots.fakedata(100,10),n=4,palette=[:grays :blues :heat :lightrainbow],bg=[:orange :pink :darkblue :black])
 ```
 
-![](../img/qwt/qwt_example_17.png)
+![](img/qwt/qwt_example_17.png)
 
 ### 
 
@@ -214,7 +214,7 @@ subplot(Plots.fakedata(100,10),n=4,palette=[:grays :blues :heat :lightrainbow],b
 subplot!(Plots.fakedata(100,10))
 ```
 
-![](../img/qwt/qwt_example_18.png)
+![](img/qwt/qwt_example_18.png)
 
 ### Annotations
 
@@ -226,7 +226,7 @@ plot(y,ann=(3,y[3],text("this is #3",:left)))
 annotate!([(5,y[5],text("this is #5",16,:red,:center)),(10,y[10],text("this is #10",:right,20,"courier"))])
 ```
 
-![](../img/qwt/qwt_example_20.png)
+![](img/qwt/qwt_example_20.png)
 
 - Supported arguments: `annotation`, `axis`, `background_color`, `color`, `color_palette`, `fillcolor`, `fillrange`, `foreground_color`, `group`, `label`, `layout`, `legend`, `linestyle`, `linetype`, `linewidth`, `markercolor`, `markershape`, `markersize`, `n`, `nbins`, `nc`, `nr`, `pos`, `show`, `size`, `smooth`, `title`, `windowtitle`, `x`, `xlabel`, `xlims`, `xscale`, `xticks`, `y`, `ylabel`, `ylims`, `yrightlabel`, `yscale`, `yticks`
 - Supported values for axis: `:auto`, `:left`, `:right`

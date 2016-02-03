@@ -15,7 +15,7 @@ A simple line plot of the columns.
 plot(fakedata(50,5),w=3)
 ```
 
-![](../img/winston/winston_example_1.png)
+![](img/winston/winston_example_1.png)
 
 ### Parametric plots
 
@@ -27,7 +27,7 @@ plot(sin,(x->begin  # /Users/tom/.julia/v0.4/Plots/docs/example_generation.jl, l
         end),0,2π,line=4,leg=false,fill=(0,:orange))
 ```
 
-![](../img/winston/winston_example_3.png)
+![](img/winston/winston_example_3.png)
 
 ### Colors
 
@@ -39,7 +39,7 @@ plot(0:10:100,rand(11,4),lab="lines",w=3,palette=:grays,fill=(0.5,:auto))
 scatter!(y,z=abs(y - 0.5),m=(10,:heat),lab="grad")
 ```
 
-![](../img/winston/winston_example_4.png)
+![](img/winston/winston_example_4.png)
 
 ### Global
 
@@ -51,7 +51,7 @@ title!("TITLE")
 yaxis!("YLABEL",:log10)
 ```
 
-![](../img/winston/winston_example_5.png)
+![](img/winston/winston_example_5.png)
 
 ### Two-axis
 
@@ -63,7 +63,7 @@ Note: Currently only supported with Qwt and PyPlot
 plot(Vector[randn(100),randn(100) * 100],axis=[:l :r],ylabel="LEFT",yrightlabel="RIGHT")
 ```
 
-![](../img/winston/winston_example_6.png)
+![](img/winston/winston_example_6.png)
 
 ### Arguments
 
@@ -73,7 +73,7 @@ Plot multiple series with different numbers of points.  Mix arguments that apply
 plot(Vector[rand(10),rand(20)],marker=(:ellipse,8),line=(:dot,3,[:black :orange]))
 ```
 
-![](../img/winston/winston_example_7.png)
+![](img/winston/winston_example_7.png)
 
 ### Build plot in pieces
 
@@ -83,7 +83,7 @@ Start with a base plot...
 plot(rand(100) / 3,reg=true,fill=(0,:green))
 ```
 
-![](../img/winston/winston_example_8.png)
+![](img/winston/winston_example_8.png)
 
 ### 
 
@@ -93,7 +93,7 @@ and add to it later.
 scatter!(rand(100),markersize=6,c=:orange)
 ```
 
-![](../img/winston/winston_example_9.png)
+![](img/winston/winston_example_9.png)
 
 ### Line types
 
@@ -107,7 +107,7 @@ y = rand(20,n)
 plot(x,y,line=(types,3),lab=map(string,types),ms=15)
 ```
 
-![](../img/winston/winston_example_11.png)
+![](img/winston/winston_example_11.png)
 
 ### Line styles
 
@@ -118,7 +118,7 @@ styles = setdiff(supportedStyles(),[:auto])'
 plot(cumsum(randn(20,length(styles)),1),style=:auto,label=map(string,styles),w=5)
 ```
 
-![](../img/winston/winston_example_12.png)
+![](img/winston/winston_example_12.png)
 
 ### Marker types
 
@@ -132,7 +132,7 @@ y = repmat(reverse(x)',n,1)
 scatter(x,y,m=(8,:auto),lab=map(string,markers),bg=:linen)
 ```
 
-![](../img/winston/winston_example_13.png)
+![](img/winston/winston_example_13.png)
 
 ### Bar
 
@@ -142,7 +142,7 @@ x is the midpoint of the bar. (todo: allow passing of edges instead of midpoints
 bar(randn(999))
 ```
 
-![](../img/winston/winston_example_14.png)
+![](img/winston/winston_example_14.png)
 
 ### Histogram
 
@@ -152,7 +152,7 @@ bar(randn(999))
 histogram(randn(1000),nbins=50)
 ```
 
-![](../img/winston/winston_example_15.png)
+![](img/winston/winston_example_15.png)
 
 - Supported arguments: `annotation`, `color`, `color_palette`, `fillcolor`, `fillrange`, `group`, `label`, `legend`, `linestyle`, `linetype`, `linewidth`, `markercolor`, `markershape`, `markersize`, `nbins`, `show`, `size`, `smooth`, `title`, `windowtitle`, `x`, `xlabel`, `xlims`, `xscale`, `y`, `ylabel`, `ylims`, `yscale`
 - Supported values for axis: `:auto`, `:left`

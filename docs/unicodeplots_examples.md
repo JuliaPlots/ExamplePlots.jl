@@ -15,7 +15,7 @@ A simple line plot of the columns.
 plot(fakedata(50,5),w=3)
 ```
 
-![](../img/unicodeplots/unicodeplots_example_1.png)
+![](img/unicodeplots/unicodeplots_example_1.png)
 
 ### Parametric plots
 
@@ -27,7 +27,7 @@ plot(sin,(x->begin  # /Users/tom/.julia/v0.4/Plots/docs/example_generation.jl, l
         end),0,2π,line=4,leg=false,fill=(0,:orange))
 ```
 
-![](../img/unicodeplots/unicodeplots_example_3.png)
+![](img/unicodeplots/unicodeplots_example_3.png)
 
 ### Colors
 
@@ -39,7 +39,7 @@ plot(0:10:100,rand(11,4),lab="lines",w=3,palette=:grays,fill=(0.5,:auto))
 scatter!(y,z=abs(y - 0.5),m=(10,:heat),lab="grad")
 ```
 
-![](../img/unicodeplots/unicodeplots_example_4.png)
+![](img/unicodeplots/unicodeplots_example_4.png)
 
 ### Global
 
@@ -51,7 +51,7 @@ title!("TITLE")
 yaxis!("YLABEL",:log10)
 ```
 
-![](../img/unicodeplots/unicodeplots_example_5.png)
+![](img/unicodeplots/unicodeplots_example_5.png)
 
 ### Two-axis
 
@@ -63,7 +63,7 @@ Note: Currently only supported with Qwt and PyPlot
 plot(Vector[randn(100),randn(100) * 100],axis=[:l :r],ylabel="LEFT",yrightlabel="RIGHT")
 ```
 
-![](../img/unicodeplots/unicodeplots_example_6.png)
+![](img/unicodeplots/unicodeplots_example_6.png)
 
 ### Arguments
 
@@ -73,7 +73,7 @@ Plot multiple series with different numbers of points.  Mix arguments that apply
 plot(Vector[rand(10),rand(20)],marker=(:ellipse,8),line=(:dot,3,[:black :orange]))
 ```
 
-![](../img/unicodeplots/unicodeplots_example_7.png)
+![](img/unicodeplots/unicodeplots_example_7.png)
 
 ### Build plot in pieces
 
@@ -83,7 +83,7 @@ Start with a base plot...
 plot(rand(100) / 3,reg=true,fill=(0,:green))
 ```
 
-![](../img/unicodeplots/unicodeplots_example_8.png)
+![](img/unicodeplots/unicodeplots_example_8.png)
 
 ### 
 
@@ -93,7 +93,7 @@ and add to it later.
 scatter!(rand(100),markersize=6,c=:orange)
 ```
 
-![](../img/unicodeplots/unicodeplots_example_9.png)
+![](img/unicodeplots/unicodeplots_example_9.png)
 
 ### Line types
 
@@ -107,7 +107,7 @@ y = rand(20,n)
 plot(x,y,line=(types,3),lab=map(string,types),ms=15)
 ```
 
-![](../img/unicodeplots/unicodeplots_example_11.png)
+![](img/unicodeplots/unicodeplots_example_11.png)
 
 ### Line styles
 
@@ -118,7 +118,7 @@ styles = setdiff(supportedStyles(),[:auto])'
 plot(cumsum(randn(20,length(styles)),1),style=:auto,label=map(string,styles),w=5)
 ```
 
-![](../img/unicodeplots/unicodeplots_example_12.png)
+![](img/unicodeplots/unicodeplots_example_12.png)
 
 ### Marker types
 
@@ -132,7 +132,7 @@ y = repmat(reverse(x)',n,1)
 scatter(x,y,m=(8,:auto),lab=map(string,markers),bg=:linen)
 ```
 
-![](../img/unicodeplots/unicodeplots_example_13.png)
+![](img/unicodeplots/unicodeplots_example_13.png)
 
 ### Bar
 
@@ -142,7 +142,7 @@ x is the midpoint of the bar. (todo: allow passing of edges instead of midpoints
 bar(randn(999))
 ```
 
-![](../img/unicodeplots/unicodeplots_example_14.png)
+![](img/unicodeplots/unicodeplots_example_14.png)
 
 ### Histogram
 
@@ -152,7 +152,7 @@ bar(randn(999))
 histogram(randn(1000),nbins=50)
 ```
 
-![](../img/unicodeplots/unicodeplots_example_15.png)
+![](img/unicodeplots/unicodeplots_example_15.png)
 
 ### Subplots
 
@@ -165,7 +165,7 @@ histogram(randn(1000),nbins=50)
 subplot(randn(100,5),layout=[1,1,3],t=[:line :hist :scatter :step :bar],nbins=10,leg=false)
 ```
 
-![](../img/unicodeplots/unicodeplots_example_16.png)
+![](img/unicodeplots/unicodeplots_example_16.png)
 
 ### Adding to subplots
 
@@ -175,7 +175,7 @@ Note here the automatic grid layout, as well as the order in which new series ar
 subplot(fakedata(100,10),n=4,palette=[:grays :blues :heat :lightrainbow],bg=[:orange :pink :darkblue :black])
 ```
 
-![](../img/unicodeplots/unicodeplots_example_17.png)
+![](img/unicodeplots/unicodeplots_example_17.png)
 
 ### 
 
@@ -185,7 +185,7 @@ subplot(fakedata(100,10),n=4,palette=[:grays :blues :heat :lightrainbow],bg=[:or
 subplot!(fakedata(100,10))
 ```
 
-![](../img/unicodeplots/unicodeplots_example_18.png)
+![](img/unicodeplots/unicodeplots_example_18.png)
 
 ### Custom Markers
 
@@ -196,7 +196,7 @@ verts = [(-1.0,1.0),(-1.28,0.6),(-0.2,-1.4),(0.2,-1.4),(1.28,0.6),(1.0,1.0),(-1.
 plot(0.1:0.2:0.9,0.7 * rand(5) + 0.15,l=(3,:dash,:lightblue),m=(Shape(verts),30,RGBA(0,0,0,0.2)),bg=:pink,fg=:darkblue,xlim=(0,1),ylim=(0,1),leg=false)
 ```
 
-![](../img/unicodeplots/unicodeplots_example_21.png)
+![](img/unicodeplots/unicodeplots_example_21.png)
 
 - Supported arguments: `group`, `label`, `legend`, `linestyle`, `linetype`, `markershape`, `nbins`, `show`, `size`, `title`, `windowtitle`, `x`, `xlabel`, `xlims`, `y`, `ylabel`, `ylims`
 - Supported values for axis: `:auto`, `:left`

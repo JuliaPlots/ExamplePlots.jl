@@ -247,7 +247,7 @@ function generate_markdown(pkgname::Symbol)
       write(md, "### $(example.header)\n\n")
       write(md, "$(example.desc)\n\n")
       write(md, "```julia\n$(join(map(string, example.exprs), "\n"))\n```\n\n")
-      write(md, "![](../img/$pkgname/$imgname)\n\n")
+      write(md, "![](img/$pkgname/$imgname)\n\n")
 
     catch ex
       # TODO: put error info into markdown?

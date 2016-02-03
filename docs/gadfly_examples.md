@@ -15,7 +15,7 @@ A simple line plot of the columns.
 plot(Plots.fakedata(50,5),w=3)
 ```
 
-![](../img/gadfly/gadfly_example_1.png)
+![](img/gadfly/gadfly_example_1.png)
 
 ### Functions, adding data, and animations
 
@@ -34,7 +34,7 @@ for x = linspace(0,10π,100) # /Users/tom/.julia/v0.4/ExamplePlots/src/example_g
 end
 ```
 
-![](../img/gadfly/gadfly_example_2.gif)
+![](img/gadfly/gadfly_example_2.gif)
 
 ### Parametric plots
 
@@ -46,7 +46,7 @@ plot(sin,(x->begin  # /Users/tom/.julia/v0.4/ExamplePlots/src/example_generation
         end),0,2π,line=4,leg=false,fill=(0,:orange))
 ```
 
-![](../img/gadfly/gadfly_example_3.png)
+![](img/gadfly/gadfly_example_3.png)
 
 ### Colors
 
@@ -58,7 +58,7 @@ plot(0:10:100,rand(11,4),lab="lines",w=3,palette=:grays,fill=(0.5,:auto))
 scatter!(y,zcolor=abs(y - 0.5),m=(:heat,0.8,stroke(1,:green)),ms=10 * abs(y - 0.5) + 4,lab="grad")
 ```
 
-![](../img/gadfly/gadfly_example_4.png)
+![](img/gadfly/gadfly_example_4.png)
 
 ### Global
 
@@ -73,7 +73,7 @@ title!("TITLE")
 yaxis!("YLABEL",:log10)
 ```
 
-![](../img/gadfly/gadfly_example_5.png)
+![](img/gadfly/gadfly_example_5.png)
 
 ### Two-axis
 
@@ -85,7 +85,7 @@ Note: Currently only supported with Qwt and PyPlot
 plot(Vector[randn(100),randn(100) * 100],axis=[:l :r],ylabel="LEFT",yrightlabel="RIGHT",xlabel="X",title="TITLE")
 ```
 
-![](../img/gadfly/gadfly_example_6.png)
+![](img/gadfly/gadfly_example_6.png)
 
 ### Arguments
 
@@ -96,7 +96,7 @@ ys = Vector[rand(10),rand(20)]
 plot(ys,line=(:dot,4,[:black :orange]),marker=([:hex :d],12,0.8,stroke(3,:gray)))
 ```
 
-![](../img/gadfly/gadfly_example_7.png)
+![](img/gadfly/gadfly_example_7.png)
 
 ### Build plot in pieces
 
@@ -106,7 +106,7 @@ Start with a base plot...
 plot(rand(100) / 3,reg=true,fill=(0,:green))
 ```
 
-![](../img/gadfly/gadfly_example_8.png)
+![](img/gadfly/gadfly_example_8.png)
 
 ### 
 
@@ -116,7 +116,7 @@ and add to it later.
 scatter!(rand(100),markersize=6,c=:orange)
 ```
 
-![](../img/gadfly/gadfly_example_9.png)
+![](img/gadfly/gadfly_example_9.png)
 
 ### Heatmaps
 
@@ -126,7 +126,7 @@ scatter!(rand(100),markersize=6,c=:orange)
 heatmap(randn(10000),randn(10000),nbins=20)
 ```
 
-![](../img/gadfly/gadfly_example_10.png)
+![](img/gadfly/gadfly_example_10.png)
 
 ### Line types
 
@@ -140,7 +140,7 @@ y = rand(20,n)
 plot(x,y,line=(types,3),lab=map(string,types),ms=15)
 ```
 
-![](../img/gadfly/gadfly_example_11.png)
+![](img/gadfly/gadfly_example_11.png)
 
 ### Line styles
 
@@ -151,7 +151,7 @@ styles = setdiff(supportedStyles(),[:auto])'
 plot(cumsum(randn(20,length(styles)),1),style=:auto,label=map(string,styles),w=5)
 ```
 
-![](../img/gadfly/gadfly_example_12.png)
+![](img/gadfly/gadfly_example_12.png)
 
 ### Marker types
 
@@ -165,7 +165,7 @@ y = repmat(reverse(x)',n,1)
 scatter(x,y,m=(8,:auto),lab=map(string,markers),bg=:linen)
 ```
 
-![](../img/gadfly/gadfly_example_13.png)
+![](img/gadfly/gadfly_example_13.png)
 
 ### Bar
 
@@ -175,7 +175,7 @@ x is the midpoint of the bar. (todo: allow passing of edges instead of midpoints
 bar(randn(999))
 ```
 
-![](../img/gadfly/gadfly_example_14.png)
+![](img/gadfly/gadfly_example_14.png)
 
 ### Histogram
 
@@ -185,7 +185,7 @@ bar(randn(999))
 histogram(randn(1000),nbins=20)
 ```
 
-![](../img/gadfly/gadfly_example_15.png)
+![](img/gadfly/gadfly_example_15.png)
 
 ### Subplots
 
@@ -198,7 +198,7 @@ histogram(randn(1000),nbins=20)
 subplot(randn(100,5),layout=[1,1,3],t=[:line :hist :scatter :step :bar],nbins=10,leg=false)
 ```
 
-![](../img/gadfly/gadfly_example_16.png)
+![](img/gadfly/gadfly_example_16.png)
 
 ### Adding to subplots
 
@@ -208,7 +208,7 @@ Note here the automatic grid layout, as well as the order in which new series ar
 subplot(Plots.fakedata(100,10),n=4,palette=[:grays :blues :heat :lightrainbow],bg=[:orange :pink :darkblue :black])
 ```
 
-![](../img/gadfly/gadfly_example_17.png)
+![](img/gadfly/gadfly_example_17.png)
 
 ### 
 
@@ -218,7 +218,7 @@ subplot(Plots.fakedata(100,10),n=4,palette=[:grays :blues :heat :lightrainbow],b
 subplot!(Plots.fakedata(100,10))
 ```
 
-![](../img/gadfly/gadfly_example_18.png)
+![](img/gadfly/gadfly_example_18.png)
 
 ### Annotations
 
@@ -230,7 +230,7 @@ plot(y,ann=(3,y[3],text("this is #3",:left)))
 annotate!([(5,y[5],text("this is #5",16,:red,:center)),(10,y[10],text("this is #10",:right,20,"courier"))])
 ```
 
-![](../img/gadfly/gadfly_example_20.png)
+![](img/gadfly/gadfly_example_20.png)
 
 ### Custom Markers
 
@@ -241,7 +241,7 @@ verts = [(-1.0,1.0),(-1.28,0.6),(-0.2,-1.4),(0.2,-1.4),(1.28,0.6),(1.0,1.0),(-1.
 plot(0.1:0.2:0.9,0.7 * rand(5) + 0.15,l=(3,:dash,:lightblue),m=(Shape(verts),30,RGBA(0,0,0,0.2)),bg=:pink,fg=:darkblue,xlim=(0,1),ylim=(0,1),leg=false)
 ```
 
-![](../img/gadfly/gadfly_example_21.png)
+![](img/gadfly/gadfly_example_21.png)
 
 ### Contours
 
@@ -256,7 +256,7 @@ f(x,y) = begin  # /Users/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl,
 contour(x,y,f,fill=true)
 ```
 
-![](../img/gadfly/gadfly_example_22.png)
+![](img/gadfly/gadfly_example_22.png)
 
 ### 3D
 
@@ -272,7 +272,7 @@ plot(x,y,z,zcolor=reverse(z),m=(10,0.8,:blues,stroke(0)),leg=false,w=5)
 plot!(zeros(n),zeros(n),1:n,w=10)
 ```
 
-![](../img/gadfly/gadfly_example_24.png)
+![](img/gadfly/gadfly_example_24.png)
 
 - Supported arguments: `annotation`, `background_color`, `color_palette`, `fillalpha`, `fillcolor`, `fillrange`, `foreground_color`, `grid`, `group`, `guidefont`, `label`, `layout`, `legend`, `legendfont`, `linealpha`, `linecolor`, `linestyle`, `linetype`, `linewidth`, `markeralpha`, `markercolor`, `markershape`, `markersize`, `markerstrokecolor`, `markerstrokewidth`, `n`, `nbins`, `nc`, `nlevels`, `nr`, `show`, `size`, `smooth`, `tickfont`, `title`, `windowtitle`, `x`, `xflip`, `xlabel`, `xlims`, `xscale`, `xticks`, `y`, `yflip`, `ylabel`, `ylims`, `yscale`, `yticks`, `z`, `zcolor`
 - Supported values for axis: `:auto`, `:left`
