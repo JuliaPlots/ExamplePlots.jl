@@ -89,24 +89,31 @@ Plots will try to figure out a good default backend for you automatically based 
 using Plots
 ```
 
-Do a plot in Gadfly (inspired by [this example](http://gadflyjl.org/geom_point.html)), then save a png:
+#### Example (inspired by [gadfly](http://gadflyjl.org/geom_point.html))
 
 ```julia
-gadfly()        # switch to Gadfly as a backend
-dataframes()    # turn on support for DataFrames inputs
+# switch to Gadfly as a backend
+gadfly()
 
-# load some data
+# turn on support for DataFrames inputs
+dataframes()
+
+# load a dataset
 using RDatasets
 iris = dataset("datasets", "iris");
 
-# This will bring up a browser window with the plot. Add a semicolon at the end to skip display. 
-scatter(iris, :SepalLength, :SepalWidth, group=:Species, m=([:+ :d :s], 12), smooth=0.99, bg=:black)
+# Scatter plot with some custom settings
+scatter(iris, :SepalLength, :SepalWidth, group=:Species,
+        title = "My awesome plot",
+        xlabel = "Length", ylabel = "Width",
+        m=(0.5, [:+ :h :star7], 12),
+        bg=RGB(.2,.2,.2))
 
-# save a png (equivalent to png("gadfly1.png") and savefig("gadfly1.png"))
-png("gadfly1")
+# save a png
+png("iris")
 ```
 
-![gadfly_plt](examples/img/gadfly1.png)
+![iris_plt](examples/img/iris.png)
 
 ## API
 
