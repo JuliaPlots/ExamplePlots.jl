@@ -1,7 +1,7 @@
 
 
-const DOCDIR = Pkg.dir("ExamplePlots") * "/docs"
-const IMGDIR = Pkg.dir("ExamplePlots") * "/img"
+const DOCDIR = joinpath(Pkg.dir("ExamplePlots"), "docs", "examples")
+const IMGDIR = joinpath(DOCDIR, "img")
 
 """
 Holds all data needed for a documentation example... header, description, and plotting expression (Expr)
@@ -195,6 +195,7 @@ const _examples = PlotExample[
         
 ]
 
+# --------------------------------------------------------------------------------------
 
 function createStringOfMarkDownCodeValues(arr, prefix = "")
   string("`", prefix, join(sort(map(string, arr)), "`, `$prefix"), "`")
@@ -209,14 +210,15 @@ function generate_markdown(pkgname::Symbol)
   # default(:show, false)
 
   # mkdir if necessary
+  pkgdir = joinpath(IMGDIR, string(pkgname))
   try
-    mkdir("$IMGDIR/$pkgname")
+    mkdir(pkgdir)
   end
 
   # open the markdown file
   md = open("$DOCDIR/$(pkgname)_examples.md", "w")
 
-  write(md, "## Examples for backend: $pkgname\n\n")
+  # write(md, "## Examples for backend: $pkgname\n\n")
 
   write(md, "### Initialize\n\n```julia\nusing Plots\n$(pkgname)()\n```\n\n")
 
@@ -237,10 +239,10 @@ function generate_markdown(pkgname::Symbol)
       # NOTE: uncomment this to overwrite the images as well
       if i == 2
         imgname = "$(pkgname)_example_$i.gif"
-        gif(anim, "$IMGDIR/$pkgname/$imgname", fps=15)
+        gif(anim, "$pkgdir/$imgname", fps=15)
       else
         imgname = "$(pkgname)_example_$i.png"
-        png("$IMGDIR/$pkgname/$imgname")
+        png("$pkgdir/$imgname")
       end
 
       # write out the header, description, code block, and image link
@@ -287,9 +289,6 @@ function test_examples(pkgname::Symbol; debug = false)
   Plots._debugMode.on = debug
   plts = Dict()
   for i in 1:length(_examples)
-    # if _examples[i].header == "Subplots" && !subplotSupported()
-    #   break
-    # end
 
     try
       plt = test_examples(pkgname, i, debug=debug)
@@ -395,17 +394,4 @@ end
 #   Plots.dumpSupportGraphs()
 # end
 
-default(size=(500,300))
-
-# run it!
-# note: generate separately so it's easy to comment out
-# @osx_only generate_markdown(:unicodeplots)
-# generate_markdown(:qwt)
-# generate_markdown(:gadfly)
-# generate_markdown(:pyplot)
-# generate_markdown(:immerse)
-# generate_markdown(:winston)
-
-
-# end # module
 
