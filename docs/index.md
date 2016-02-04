@@ -17,9 +17,41 @@ My goals with the package are:
 
 Use the preprocessing pipeline in Plots to fully describe your visualization before it calls the backend code.  This maintains modularity and allows for efficient separation of front end code, algorithms, and backend graphics.  New graphical backends can be added with minimal effort.
 
-Check out the [summary graphs](examples/img/supported/supported.md) for the features that each backend supports.
+Please add wishlist items, bugs, or any other comments/questions to the [issues list](https://github.com/tbreloff/Plots.jl/issues).
 
-Please add wishlist items, bugs, or any other comments/questions to the issues list.
+## A Quick Example
+
+```julia
+using Plots
+pyplot(size=(300,300))
+
+# initialize the attractor
+n = 3000
+dt = 0.02
+σ, ρ, β = 10., 28., 8/3
+x, y, z = 1., 1., 1.
+X, Y, Z = [x], [y], [z]
+
+# initialize a Plots animation
+anim = Animation()
+
+# process n steps
+for i=1:n
+    dx = σ*(y - x);      x += dt * dx; push!(X,x)
+    dy = x*(ρ - z) - y;  y += dt * dy; push!(Y,y)
+    dz = x*y - β*z;      z += dt * dz; push!(Z,z)
+    
+    # plot and save to the animation
+    if mod1(i,10) == 1
+        frame(anim, plot3d(X,Y,Z))
+    end
+end
+
+# build an animated gif
+gif(anim)
+```
+
+![](examples/img/lorenz.gif)
 
 ## Installation
 
