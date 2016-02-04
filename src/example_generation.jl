@@ -271,7 +271,7 @@ end
 
 
 # make and display one plot
-function test_examples(pkgname::Symbol, idx::Int; debug = true)
+function test_examples(pkgname::Symbol, idx::Int; debug = false)
   Plots._debugMode.on = debug
   println("Testing plot: $pkgname:$idx:$(_examples[idx].header)")
   backend(pkgname)

@@ -1,9 +1,13 @@
 
-# Intro
+# Intro to Plots in Julia
 
 **Author: Thomas Breloff (@tbreloff)**
 
-Plots is a plotting API and toolset.  My goals with the package are:
+Data visualization has a complicated history, with plotting software making trade-offs between features vs simplicity, speed vs beauty, and static vs dynamic.  Some make a visualization and never change it, others must make updates in real-time. 
+
+Plots is a visualization interface and toolset.  It sits above other visualization "backends", connecting commands with implementation.  If one backend does not support your desired features, or make the right trade-offs, just switch to another backend with one command.  No need to change your code.  No need to learn something new.  Plots might be the last plotting package you ever learn.
+
+My goals with the package are:
 
 - **Intuitive**.  Start generating complex plots without reading volumes of documentation.  Commands should "just work".
 - **Concise**.  Less code means fewer mistakes and more efficient development/analysis.
@@ -16,8 +20,6 @@ Use the preprocessing pipeline in Plots to fully describe your visualization bef
 Check out the [summary graphs](examples/img/supported/supported.md) for the features that each backend supports.
 
 Please add wishlist items, bugs, or any other comments/questions to the issues list.
-
-Also check out the many [IJulia notebooks](http://nbviewer.ipython.org/github/tbreloff/ExamplePlots.jl/tree/master/examples/) with many examples.
 
 ## Installation
 

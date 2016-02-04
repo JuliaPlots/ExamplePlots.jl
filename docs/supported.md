@@ -1,23 +1,23 @@
-## Supported keyword arguments
+## Keyword arguments
 
 ![args](examples/img/supported/Plots.supportGraphArgs.png)
 
-## Supported plot types
+## Plot types
 
 ![types](examples/img/supported/Plots.supportGraphTypes.png)
 
-## Supported markers
+## Markers
 
 ![markers](examples/img/supported/Plots.supportGraphMarkers.png)
 
-## Supported line styles
+## Line styles
 
 ![styles](examples/img/supported/Plots.supportGraphStyles.png)
 
-## Supported scales
+## Scales
 
 ![scales](examples/img/supported/Plots.supportGraphScales.png)
 
-## Supported axes
+## Axes
 
 ![axes](examples/img/supported/Plots.supportGraphAxes.png)
