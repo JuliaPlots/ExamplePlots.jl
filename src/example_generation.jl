@@ -203,7 +203,7 @@ end
 createStringOfMarkDownSymbols(arr) = isempty(arr) ? "" : createStringOfMarkDownCodeValues(arr, ":")
 
 
-function generate_markdown(pkgname::Symbol)
+function generate_markdown(pkgname::Symbol; skip = [])
 
   # set up the backend, and don't show the plots by default
   pkg = backend(pkgname)
@@ -224,6 +224,8 @@ function generate_markdown(pkgname::Symbol)
 
 
   for (i,example) in enumerate(_examples)
+
+    i in skip && continue
 
     try
 
