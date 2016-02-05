@@ -216,7 +216,7 @@ function generate_markdown(pkgname::Symbol)
   end
 
   # open the markdown file
-  md = open("$DOCDIR/$(pkgname)_examples.md", "w")
+  md = open("$DOCDIR/$(pkgname).md", "w")
 
   # write(md, "## Examples for backend: $pkgname\n\n")
 
