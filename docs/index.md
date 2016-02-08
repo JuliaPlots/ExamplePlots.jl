@@ -89,14 +89,11 @@ Plots will try to figure out a good default backend for you automatically based 
 using Plots
 ```
 
-#### Example (inspired by [gadfly](http://gadflyjl.org/geom_point.html))
+#### Example (inspired by [this](http://gadflyjl.org/geom_point.html))
 
 ```julia
 # switch to Gadfly as a backend
 gadfly()
-
-# turn on support for DataFrames inputs
-dataframes()
 
 # load a dataset
 using RDatasets
@@ -120,22 +117,14 @@ png("iris")
 Call `backend(backend::Symbol)` or the shorthands (`gadfly()`, `qwt()`, `unicodeplots()`, etc) to set the current plotting backend.
 Subsequent commands are converted into the relevant plotting commands for that package:
 
-```julia
-gadfly()
-plot(1:10)    # this effectively calls `y = 1:10; Gadfly.plot(x=1:length(y), y=y)`
-qwt()
-plot(1:10)    # this effectively calls `Qwt.plot(1:10)`
-```
-
 Use `plot` to create a new plot object, and `plot!` to add to an existing one:
 
 ```julia
 plot(args...; kw...)                  # creates a new plot window, and sets it to be the `current`
 plot!(args...; kw...)                 # adds to the `current`
-plot!(plotobj, args...; kw...)        # adds to the plot `plotobj`
+plot!(plt, args...; kw...)            # adds to the plot `plt`
 ```
 
-Now that you know which plot object you're updating (new, current, or other), I'll leave it off for simplicity.
 There are many ways to pass in data to the plot functions... some examples:
 
 - Vector-like (subtypes of AbstractArray{T,1})
@@ -143,7 +132,7 @@ There are many ways to pass in data to the plot functions... some examples:
 - Vectors of Vectors
 - Functions
 - Vectors of Functions
-- DataFrames with column symbols (initialize with `dataframes()`)
+- DataFrames with column symbols
 
 In general, you can pass in a `y` only, or an `x` and `y`, both of whatever type(s) you want, and Plots will slice up the data as needed.
 For matrices, data is split by columns.  For functions, data is mapped.  For DataFrames, a Symbol/Symbols in place of x/y will map to
@@ -163,7 +152,7 @@ plot(rand(10), sin)                       # same... y = sin(x)
 plot([sin,cos], 0:0.1:π)                  # plot 2 series, sin(x) and cos(x)
 plot([sin,cos], 0, π)                     # plot sin and cos on the range [0, π]
 plot(1:10, Any[rand(10), sin])            # plot 2 series, y = rand(10) for the first, y = sin(x) for the second... x = 1:10 for both
-plot(dataset("Ecdat", "Airline"), :Cost)  # plot from a DataFrame (call `dataframes()` first to import DataFrames and initialize)
+plot(dataset("Ecdat", "Airline"), :Cost)  # plot from a DataFrame
 ```
 
 All plot methods accept a number of keyword arguments (see the tables below), which follow some rules:
