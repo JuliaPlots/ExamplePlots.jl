@@ -186,6 +186,10 @@ subplot(y; layout = [1, 2])   # explicit layout.  Lists the number of plots in e
 
 __Tip__: You can call `subplot!(args...; kw...)` to add to an existing subplot.
 
+To create a grid of existing plots `p` and `q`, use:
+```julia
+pq = subplot(p, q)
+```
 __Tip__: Calling `subplot!` on a `Plot` object, or `plot!` on a `Subplot` object will throw an error.
 
 ## Shorthands
