@@ -32,23 +32,13 @@ dt = 0.02
 x, y, z = 1., 1., 1.
 X, Y, Z = [x], [y], [z]
 
-# initialize a Plots animation
-anim = Animation()
-
-# process n steps
-for i=1:n
+# build an animated gif, saving every 10th frame
+@gif for i=1:n
     dx = σ*(y - x);      x += dt * dx; push!(X,x)
     dy = x*(ρ - z) - y;  y += dt * dy; push!(Y,y)
     dz = x*y - β*z;      z += dt * dz; push!(Z,z)
-    
-    # plot and save to the animation
-    if mod1(i,10) == 1
-        frame(anim, plot3d(X,Y,Z))
-    end
-end
-
-# build an animated gif
-gif(anim)
+    plot3d(X,Y,Z)
+end every 10
 ```
 
 ![](examples/img/lorenz.gif)
@@ -111,6 +101,10 @@ png("iris")
 ```
 
 ![iris_plt](examples/img/iris.png)
+
+## Documentation warning
+
+The content below here is somewhat dated, and may not be fully accurate.  At a minimum it is not complete.  I'll replace it with more complete documentation and tutorials sometime in the future.  In the meantime, feel free to ask questions using the [Plots issue tracker](https://github.com/tbreloff/Plots.jl/issues).
 
 ## API
 
