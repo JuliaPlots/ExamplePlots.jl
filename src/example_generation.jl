@@ -275,25 +275,27 @@ end
 
 
 # make and display one plot
-function test_examples(pkgname::Symbol, idx::Int; debug = false)
+function test_examples(pkgname::Symbol, idx::Int; debug = false, disp = true)
   Plots._debugMode.on = debug
   println("Testing plot: $pkgname:$idx:$(_examples[idx].header)")
   backend(pkgname)
   backend()
   map(eval, _examples[idx].exprs)
   plt = current()
-  gui(plt)
+  if disp
+    gui(plt)
+  end
   plt
 end
 
 # generate all plots and create a dict mapping idx --> plt
-function test_examples(pkgname::Symbol; debug = false)
+function test_examples(pkgname::Symbol; debug = false, disp = true)
   Plots._debugMode.on = debug
   plts = Dict()
   for i in 1:length(_examples)
 
     try
-      plt = test_examples(pkgname, i, debug=debug)
+      plt = test_examples(pkgname, i, debug=debug, disp=disp)
       plts[i] = plt
     catch ex
       # TODO: put error info into markdown?
