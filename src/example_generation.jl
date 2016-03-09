@@ -12,7 +12,7 @@ type PlotExample
   exprs::Vector{Expr}
 end
 
-
+const _heatmaps_are_hists = !isdefined(Plots, :histogram2d)
 
 # the _examples we'll run for each
 const _examples = PlotExample[
@@ -74,10 +74,10 @@ const _examples = PlotExample[
               [
                 :(scatter!(rand(100), markersize=6, c=:orange))
               ]),
-  PlotExample("Heatmaps",
+  PlotExample(_heatmaps_are_hists ? "Heatmaps" : "Histogram2D",
               "",
               [
-                :(heatmap(randn(10000),randn(10000), nbins=20))
+                _heatmaps_are_hists ? :(heatmap(randn(10000),randn(10000), nbins=20)) : :(histogram2d(randn(10000), randn(10000), nbins=20))
               ]),
   PlotExample("Line types",
               "",
@@ -304,98 +304,4 @@ function test_examples(pkgname::Symbol; debug = false, disp = true)
   end
   plts
 end
-
-# axis            # :left or :right
-# color           # can be a string ("red") or a symbol (:red) or a ColorsTypes.jl 
-#                 #   Colorant (RGB(1,0,0)) or :auto (which lets the package pick)
-# label           # string or symbol, applies to that line, may go in a legend
-# width           # width of a line
-# linetype        # :line, :step, :stepinverted, :sticks, :scatter, :none, :heatmap, :hexbin, :hist, :bar
-# linestyle       # :solid, :dash, :dot, :dashdot, :dashdotdot
-# marker          # :none, :ellipse, :rect, :diamond, :utriangle, :dtriangle,
-#                 #   :cross, :xcross, :star1, :star2, :hexagon
-# markercolor     # same choices as `color`, or :match will set the color to be the same as `color`
-# markersize      # size of the marker
-# nbins           # number of bins for heatmap/hexbin and histograms
-# heatmap_c       # color cutoffs for Qwt heatmaps
-# fill          # fill value for area plots
-# title           # string or symbol, title of the plot
-# xlabel          # string or symbol, label on the bottom (x) axis
-# ylabel          # string or symbol, label on the left (y) axis
-# yrightlabel     # string or symbol, label on the right (y) axis
-# reg             # true or false, add a regression line for each line
-# size            # (Int,Int), resize the enclosing window
-# pos             # (Int,Int), move the enclosing window to this position
-# windowtitle     # string or symbol, set the title of the enclosing windowtitle
-# screen          # Integer, move enclosing window to this screen number (for multiscreen desktops)
-
-
-
-# @compat const _ltdesc = Dict(
-#     :none => "No line",
-#     :line => "Lines with sorted x-axis",
-#     :path => "Lines",
-#     :steppre => "Step plot (vertical then horizontal)",
-#     :steppost => "Step plot (horizontal then vertical)",
-#     :sticks => "Vertical lines",
-#     :scatter => "Points, no lines",
-#     :heatmap => "Colored regions by density",
-#     :hexbin => "Similar to heatmap",
-#     :hist => "Histogram (doesn't use x)",
-#     :bar => "Bar plot (centered on x values)",
-#     :hline => "Horizontal line (doesn't use x)",
-#     :vline => "Vertical line (doesn't use x)",
-#     :ohlc => "Open/High/Low/Close chart (expects y is AbstractVector{Plots.OHLC})",
-#   )
-
-# function buildReadme()
-#   readme = readall("$DOCDIR/readme_template.md")
-
-#   # build keyword arg table
-#   table = "Keyword | Default | Type | Aliases \n---- | ---- | ---- | ----\n"
-#   allseries = merge(Plots._seriesDefaults, @compat(Dict(:line=>nothing, :marker=>nothing, :fill=>nothing)))
-#   allplots = merge(Plots._plotDefaults, @compat(Dict(:xaxis=>nothing, :yaxis=>nothing)))
-#   alldefs = merge(allseries, allplots)
-#   for k in Plots.sortedkeys(alldefs)
-#   # for d in (Plots._seriesDefaults, Plots._plotDefaults)
-#   #   for k in Plots.sortedkeys(d)
-#     aliasstr = createStringOfMarkDownSymbols(aliases(Plots._keyAliases, k))
-#     table = string(table, "`:$k` | `$(alldefs[k])` | $(haskey(allseries,k) ? "Series" : "Plot") | $aliasstr  \n")
-#     # end
-#   end
-#   readme = replace(readme, "[[KEYWORD_ARGS_TABLE]]", table)
-
-#   # build linetypes table
-#   table = "Type | Desc | Aliases\n---- | ---- | ----\n"
-#   for lt in Plots._allTypes
-#     aliasstr = createStringOfMarkDownSymbols(aliases(Plots._typeAliases, lt))
-#     table = string(table, "`:$lt` | $(_ltdesc[lt]) | $aliasstr  \n")
-#   end
-#   readme = replace(readme, "[[LINETYPES_TABLE]]", table)
-
-#   # build linestyles table
-#   table = "Type | Aliases\n---- | ----\n"
-#   for s in Plots._allStyles
-#     aliasstr = createStringOfMarkDownSymbols(aliases(Plots._styleAliases, s))
-#     table = string(table, "`:$s` | $aliasstr  \n")
-#   end
-#   readme = replace(readme, "[[LINESTYLES_TABLE]]", table)
-
-#   # build markers table
-#   table = "Type | Aliases\n---- | ----\n"
-#   for s in Plots._allMarkers
-#     aliasstr = createStringOfMarkDownSymbols(aliases(Plots._markerAliases, s))
-#     table = string(table, "`:$s` | $aliasstr  \n")
-#   end
-#   readme = replace(readme, "[[MARKERS_TABLE]]", table)
-
-#   readme_fn = Pkg.dir("Plots") * "/README.md"
-#   f = open(readme_fn, "w")
-#   write(f, readme)
-#   close(f)
-
-#   gadfly()
-#   Plots.dumpSupportGraphs()
-# end
-
 
