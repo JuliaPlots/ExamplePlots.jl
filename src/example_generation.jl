@@ -116,7 +116,7 @@ const _examples = PlotExample[
   PlotExample("Subplots",
               """
                 subplot and subplot! are distinct commands which create many plots and add series to them in a circular fashion.
-                You can define the layout with keyword params... either set the number of plots `n` (and optionally number of rows `nr` or 
+                You can define the layout with keyword params... either set the number of plots `n` (and optionally number of rows `nr` or
                 number of columns `nc`), or you can set the layout directly with `layout`.
               """,
               [
@@ -158,7 +158,7 @@ const _examples = PlotExample[
                            (-1.0,1.0),(-0.2,-0.6),(0.0,-0.2),(-0.4,0.6),(1.28,0.6),(0.2,-1.4),
                            (-0.2,-1.4),(0.6,0.2),(-0.2,0.2),(0.0,-0.2),(0.2,0.2),(-0.2,-0.6)])
                 :(plot(0.1:0.2:0.9, 0.7rand(5)+0.15,
-                       l=(3,:dash,:lightblue), 
+                       l=(3,:dash,:lightblue),
                        m=(Shape(verts),30,RGBA(0,0,0,0.2)),
                        bg=:pink, fg=:darkblue,
                        xlim = (0,1), ylim=(0,1), leg=false))
@@ -191,8 +191,17 @@ const _examples = PlotExample[
                 :(z = 1:n),
                 :(plot(x, y, z, zcolor=reverse(z), m=(10,0.8,:blues,stroke(0)), leg=false, w=5)),
                 :(plot!(zeros(n),zeros(n),1:n, w=10))
-              ])
-        
+              ]),
+
+  PlotExample("DataFrames",
+              "Plot using DataFrame column symbols.",
+              [
+                # :(import DataFrames, RDatasets),
+                :(iris = RDatasets.dataset("datasets", "iris")),
+                :(scatter(iris, :SepalLength, :SepalWidth, group=:Species,
+                          title = "My awesome plot", xlabel = "Length", ylabel = "Width",
+                          m=(0.5, [:+ :h :star7], 12), bg=RGB(.2,.2,.2)))
+              ]),
 ]
 
 # --------------------------------------------------------------------------------------
@@ -304,4 +313,3 @@ function test_examples(pkgname::Symbol; debug = false, disp = true)
   end
   plts
 end
-
