@@ -51,3 +51,7 @@ plot(sin, cos, tmin, tmax)
 ```
 
 Vectors of functions are allowed as well (one series per function).
+
+## Shapes
+
+Check out [this tutorial](https://github.com/tbreloff/ExamplePlots.jl/blob/master/notebooks/batman.ipynb)!
