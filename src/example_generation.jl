@@ -202,6 +202,13 @@ const _examples = PlotExample[
                           title = "My awesome plot", xlabel = "Length", ylabel = "Width",
                           m=(0.5, [:+ :h :star7], 12), bg=RGB(.2,.2,.2)))
               ]),
+
+PlotExample("Groups and Subplots",
+            "",
+            [
+              :(group = rand(map(i->"group $i",1:4),100)),
+              :(subplot(rand(100), group=group, n=3, linetype=[:bar :scatter :step]))
+            ]),
 ]
 
 # --------------------------------------------------------------------------------------
