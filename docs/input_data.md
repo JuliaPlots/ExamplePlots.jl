@@ -54,4 +54,6 @@ Vectors of functions are allowed as well (one series per function).
 
 ## Shapes
 
-Check out [this tutorial](https://github.com/tbreloff/ExamplePlots.jl/blob/master/notebooks/batman.ipynb)!
+Check out [this tutorial](https://github.com/tbreloff/ExamplePlots.jl/blob/master/notebooks/batman.ipynb) to save Gotham:
+
+![batman](examples/img/batman.png)
