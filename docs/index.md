@@ -3,7 +3,7 @@
 
 **Author: Thomas Breloff (@tbreloff)**
 
-Data visualization has a complicated history, with plotting software making trade-offs between features vs simplicity, speed vs beauty, and static vs dynamic.  Some make a visualization and never change it, others must make updates in real-time. 
+Data visualization has a complicated history, with plotting software making trade-offs between features vs simplicity, speed vs beauty, and static vs dynamic.  Some make a visualization and never change it, others must make updates in real-time.
 
 Plots is a visualization interface and toolset.  It sits above other visualization "backends", connecting commands with implementation.  If one backend does not support your desired features, or make the right trade-offs, just switch to another backend with one command.  No need to change your code.  No need to learn something new.  Plots might be the last plotting package you ever learn.
 
@@ -23,21 +23,25 @@ Please add wishlist items, bugs, or any other comments/questions to the [issues 
 
 ```julia
 using Plots
-pyplot(size=(300,300))
+pyplot(size=(600,300))
 
 # initialize the attractor
-n = 3000
+n = 1500
 dt = 0.02
 σ, ρ, β = 10., 28., 8/3
 x, y, z = 1., 1., 1.
-X, Y, Z = [x], [y], [z]
+
+# initialize a 3D plot with 1 empty series
+plt = path3d(1, xlim=(-25,25), ylim=(-25,25), zlim=(0,50),
+                xlab = "x", ylab = "y", zlab = "z",
+                title = "Lorenz Attractor", marker = 1)
 
 # build an animated gif, saving every 10th frame
 @gif for i=1:n
-    dx = σ*(y - x);      x += dt * dx; push!(X,x)
-    dy = x*(ρ - z) - y;  y += dt * dy; push!(Y,y)
-    dz = x*y - β*z;      z += dt * dz; push!(Z,z)
-    plot3d(X,Y,Z)
+    dx = σ*(y - x)     ; x += dt * dx
+    dy = x*(ρ - z) - y ; y += dt * dy
+    dz = x*y - β*z     ; z += dt * dz
+    push!(plt, x, y, z)
 end every 10
 ```
 
@@ -222,7 +226,7 @@ annotate!(anns)                           = plot!(annotation = anns)
 
 ## Keyword arguments:
 
-Keyword | Default | Type | Aliases 
+Keyword | Default | Type | Aliases
 ---- | ---- | ---- | ----
 `:annotation` | `nothing` | Series | `:ann`, `:annotate`, `:annotations`, `:anns`  
 `:axis` | `left` | Series | `:axiss`  
@@ -386,6 +390,3 @@ Animations are created in 3 steps (see example #2):
 - Initialize an `Animation` object.
 - Save each frame of the animation with `frame(anim)`.
 - Convert the frames to an animated gif with `gif(anim, filename, fps=15)`
-
-
-
