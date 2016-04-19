@@ -118,3 +118,31 @@ subplot(
 This hook gave us a nice way to swap out the input data and add custom visualization attributes for a user type.
 
 ### Step 4:  Apply groupings
+
+```julia
+scatter(rand(100), group = rand(1:3, 100), marker = (10,0.3,[:s :o :x]))
+```
+
+![pipeline_img](examples/img/pipeline4.png)
+
+### Step 5:  
+
+```julia
+```
+
+![pipeline_img](examples/img/pipeline5.png)
+
+### Step 6:
+
+```julia
+```
+
+![pipeline_img](examples/img/pipeline6.png)
+
+
+### Step 7:  
+
+```julia
+```
+
+![pipeline_img](examples/img/pipeline7.png)
