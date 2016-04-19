@@ -27,7 +27,7 @@ plot(x, y, line = (0.5, [4 1 0], [:path :scatter :density]),
     orientation = :h, title = "My title")
 ```
 
-![pipeline1](examples/img/pipeline1.png)
+![pipeline_img](examples/img/pipeline0.png)
 
 In this example, we have an input matrix, and we'd like to plot three series on top of each other, one for each column of data.
 We create a row vector (1x3 matrix) of symbols to assign different visualization types for each series, set the orientation of the histogram, and set
@@ -36,16 +36,24 @@ alpha values.
 For comparison's sake, this is somewhat similar to the following calls in PyPlot:
 
 ```julia
-using PyPlot
-plot(x, y[:,1], alpha = 0.5, "steelblue", linewidth = 4)
-scatter(x, y[:,2], alpha = 0.5, marker = "+", s = 100, c="orange")
-plt[:hist](y[:,3], orientation = "horizontal", alpha = 0.5,
-normed = true, bins=30, color="green", linewidth = 0)
-ax = gca()
+import PyPlot
+fig = PyPlot.gcf()
+fig[:set_size_inches](4,3,forward=true)
+fig[:set_dpi](100)
+PyPlot.clf()
+
+PyPlot.plot(x, y[:,1], alpha = 0.5, "steelblue", linewidth = 4)
+PyPlot.scatter(x, y[:,2], alpha = 0.5, marker = "+", s = 100, c="orangered")
+PyPlot.plt[:hist](y[:,3], orientation = "horizontal", alpha = 0.5,
+                          normed = true, bins=30, color="green",
+                          linewidth = 0)
+
+ax = PyPlot.gca()
 ax[:xaxis][:grid](true)
 ax[:yaxis][:grid](true)
-title("My title")
-legend(["y1","y2"])
+PyPlot.title("My title")
+PyPlot.legend(["y1","y2"])
+PyPlot.show()
 ```
 
 ### Step 1: Replace aliases
@@ -54,10 +62,29 @@ In Plots, there are many aliased names for keyword arguments.  The reason is pri
 Generally speaking, many of the common names that you might expect to see are all supported.  I find that, personally, I've spent tons of time through my career referencing the documentation of
 matplotlib and others, only because I couldn't remember the argument names.  Thanks to aliases, we can replace `line`, `marker`, and `fill` with aliases `l`, `m`, and `f` for compact commands.
 
+The following commands are equivalent:
+
+```julia
+plot(y, lab = "my label", l = (2,0.5), m = (:hex,20,0.2,stroke(0)), key = false)
+
+plot(y, label = "my label", line = (2,0.5), marker = (:hexagon,20,0.2,stroke(0)), legend = false)
+```
+
+![pipeline_img](examples/img/pipeline1.png)
+
 ### Step 2: Handle "Magic Arguments"
 
 Some arguments encompass smart shorthands for setting many related arguments at the same time.  For example, passing a tuple of settings to the `xaxis` argument will allow the quick definition
-of `xlabel`, `xlim`, `xticks`, `xscale`, `xflip`, and `tickfont`.  Plots uses type checking and multiple dispatch to smartly "figure out" which values apply to which argument.
+of `xlabel`, `xlim`, `xticks`, `xscale`, `xflip`, and `tickfont`.  Plots uses type checking and multiple dispatch to smartly "figure out" which values apply to which argument.  These are equivalent:
+
+```julia
+plot(y, xaxis = ("my label", (0,10), 0:0.5:10, :log, :flip, font(20, "Courier")))
+
+plot(y, xlabel = "my label", xlim = (0,10), xticks = 0:0.5:10,
+        xscale = :log, xflip = true, tickfont = font(20, "Courier"))
+```
+
+![pipeline_img](examples/img/pipeline2.png)
 
 Afterwards, there are some arguments which are simplified and compressed, such as converting the boolean setting `colorbar = false` to the internal description `colorbar = :best` as to allow
 complex behavior without complex interface.
@@ -86,4 +113,8 @@ subplot(
 )
 ```
 
+![pipeline_img](examples/img/pipeline3.png)
+
 This hook gave us a nice way to swap out the input data and add custom visualization attributes for a user type.
+
+### Step 4:  Apply groupings
