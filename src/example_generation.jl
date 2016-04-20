@@ -209,6 +209,14 @@ PlotExample("Groups and Subplots",
               :(group = rand(map(i->"group $i",1:4),100)),
               :(subplot(rand(100), group=group, n=3, linetype=[:bar :scatter :step]))
             ]),
+
+PlotExample("Polar Plots",
+            "",
+            [
+                :(Θ = linspace(0,1.5π,100)),
+                :(r = 0.5randn(100)+sin(3Θ)),
+                :(scatter(Θ, r, polar=true))
+            ]),
 ]
 
 # --------------------------------------------------------------------------------------

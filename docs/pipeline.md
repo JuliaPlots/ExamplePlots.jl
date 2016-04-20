@@ -86,7 +86,7 @@ plot(y, xlabel = "my label", xlim = (0,10), xticks = 0:0.5:10,
 
 ![pipeline_img](examples/img/pipeline2.png)
 
-Afterwards, there are some arguments which are simplified and compressed, such as converting the boolean setting `colorbar = false` to the internal description `colorbar = :best` as to allow
+Afterwards, there are some arguments which are simplified and compressed, such as converting the boolean setting `colorbar = false` to the internal description `colorbar = :none` as to allow
 complex behavior without complex interface.
 
 
