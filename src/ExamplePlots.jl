@@ -4,7 +4,7 @@ using Reexport
 @reexport using Plots
 
 export
-  test_examples
+  test_examples, generate_markdown
 
 include("example_generation.jl")
 
