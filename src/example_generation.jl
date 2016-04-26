@@ -40,7 +40,7 @@ const _examples = PlotExample[
               "Access predefined palettes (or build your own with the `colorscheme` method).  Line/marker colors are auto-generated from the plot's palette, unless overridden.  Set the `z` argument to turn on series gradients.",
               [
                 :(y = rand(100)),
-                :(plot(0:10:100,rand(11,4),lab="lines",w=3, palette=:grays, fill=(0.5,:auto))),
+                :(plot(0:10:100,rand(11,4),lab="lines",w=3,palette=:grays,fill=(0,:auto), α=0.6)),
                 :(scatter!(y, zcolor=abs(y-.5), m=(:heat,0.8,stroke(1,:green)), ms=10*abs(y-0.5)+4, lab="grad"))
               ]),
   PlotExample("Global",
@@ -62,7 +62,7 @@ const _examples = PlotExample[
               "Plot multiple series with different numbers of points.  Mix arguments that apply to all series (marker/markersize) with arguments unique to each series (colors).  Special arguments `line`, `marker`, and `fill` will automatically figure out what arguments to set (for example, we are setting the `linestyle`, `linewidth`, and `color` arguments with `line`.)  Note that we pass a matrix of colors, and this applies the colors to each series.",
               [
                 :(ys = Vector[rand(10), rand(20)]),
-                :(plot(ys, line=(:dot,4,[:black :orange]), marker=([:hex :d],12,0.8,stroke(3,:gray))))
+                :(plot(ys, color=[:black :orange], line=(:dot,4), marker=([:hex :d],12,0.8,stroke(3,:gray))))
               ]),
   PlotExample("Build plot in pieces",
               "Start with a base plot...",
@@ -106,7 +106,7 @@ const _examples = PlotExample[
   PlotExample("Bar",
               "x is the midpoint of the bar. (todo: allow passing of edges instead of midpoints)",
               [
-                :(bar(randn(999)))
+                :(bar(randn(99)))
               ]),
   PlotExample("Histogram",
               "",
@@ -125,7 +125,7 @@ const _examples = PlotExample[
   PlotExample("Adding to subplots",
               "Note here the automatic grid layout, as well as the order in which new series are added to the plots.",
               [
-                :(subplot(Plots.fakedata(100,10), n=4, palette=[:grays :blues :heat :lightrainbow], bg=[:orange :pink :darkblue :black]))
+                :(subplot(Plots.fakedata(100,10), n=4, palette=[:grays :blues :heat :lightrainbow], bg_inside=[:orange :pink :darkblue :black]))
               ]),
   PlotExample("",
               "",
@@ -214,8 +214,8 @@ PlotExample("Polar Plots",
             "",
             [
                 :(Θ = linspace(0,1.5π,100)),
-                :(r = 0.5randn(100)+sin(3Θ)),
-                :(scatter(Θ, r, polar=true))
+                :(r = abs(0.1randn(100)+sin(3Θ))),
+                :(plot(Θ, r, polar=true, m=2))
             ]),
 ]
 
