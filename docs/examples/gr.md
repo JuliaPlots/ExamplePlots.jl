@@ -114,12 +114,12 @@ scatter!(rand(100),markersize=6,c=:orange)
 
 ![](img/gr/gr_example_9.png)
 
-### Heatmaps
+### Bi-dimensional histogram
 
 
 
 ```julia
-heatmap(randn(10000),randn(10000),nbins=20)
+histogram2d(randn(10000),randn(10000),nbins=20)
 ```
 
 ![](img/gr/gr_example_10.png)
@@ -158,7 +158,7 @@ markers = setdiff(supportedMarkers(),[:none,:auto,Shape])'
 n = length(markers)
 x = (linspace(0,10,n + 2))[2:end - 1]
 y = repmat(reverse(x)',n,1)
-scatter(x,y,m=(8,:auto),lab=map(string,markers),bg=:linen,xlim=(0,10),ylim=(0,10))
+scatter(x,y,lab=map(string,markers),bg=:linen,xlim=(0,10),ylim=(0,10))
 ```
 
 ![](img/gr/gr_example_13.png)
@@ -244,6 +244,17 @@ annotate!([(5,y[5],text("this is #5",16,:red,:center)),(10,y[10],text("this is #
 
 ![](img/gr/gr_example_20.png)
 
+### Custom Markers
+
+A `Plots.Shape` is a light wrapper around vertices of a polygon.  For supported backends, pass arbitrary polygons as the marker shapes.  Note: The center is (0,0) and the size is expected to be rougly the area of the unit circle.
+
+```julia
+verts = [(-1.0,1.0),(-1.28,0.6),(-0.2,-1.4),(0.2,-1.4),(1.28,0.6),(1.0,1.0),(-1.0,1.0),(-0.2,-0.6),(0.0,-0.2),(-0.4,0.6),(1.28,0.6),(0.2,-1.4),(-0.2,-1.4),(0.6,0.2),(-0.2,0.2),(0.0,-0.2),(0.2,0.2),(-0.2,-0.6)]
+plot(0.1:0.2:0.9,0.7 * rand(5) + 0.15,l=(3,:dash,:lightblue),m=(Shape(verts),30,RGBA(0,0,0,0.2)),bg=:pink,fg=:darkblue,xlim=(0,1),ylim=(0,1),leg=false)
+```
+
+![](img/gr/gr_example_21.png)
+
 ### Contours
 
 
@@ -257,12 +268,39 @@ contour(x,y,f,fill=true)
 
 ![](img/gr/gr_example_22.png)
 
+### Pie
 
-- Supported arguments: `annotation`, `axis`, `background_color`, `color_palette`, `colorbar`, `fillalpha`, `fillcolor`, `fillrange`, `foreground_color`, `grid`, `group`, `guidefont`, `label`, `layout`, `legend`, `legendfont`, `linealpha`, `linecolor`, `linestyle`, `linetype`, `linewidth`, `markeralpha`, `markercolor`, `markershape`, `markersize`, `markerstrokecolor`, `markerstrokewidth`, `n`, `nbins`, `nc`, `nlevels`, `nr`, `show`, `size`, `smooth`, `tickfont`, `title`, `windowtitle`, `x`, `xflip`, `xlabel`, `xlims`, `xscale`, `xticks`, `y`, `yflip`, `ylabel`, `ylims`, `yrightlabel`, `yscale`, `yticks`, `z`, `zcolor`
+
+
+```julia
+x = ["Nerds","Hackers","Scientists"]
+y = [0.4,0.35,0.25]
+pie(x,y,title="The Julia Community",l=0.5)
+```
+
+![](img/gr/gr_example_23.png)
+
+### 3D
+
+
+
+```julia
+n = 100
+ts = linspace(0,8π,n)
+x = ts .* map(cos,ts)
+y = (0.1ts) .* map(sin,ts)
+z = 1:n
+plot(x,y,z,zcolor=reverse(z),m=(10,0.8,:blues,stroke(0)),leg=false,w=5)
+plot!(zeros(n),zeros(n),1:n,w=10)
+```
+
+![](img/gr/gr_example_24.png)
+
+- Supported arguments: `annotation`, `axis`, `background_color`, `color_palette`, `colorbar`, `fillalpha`, `fillcolor`, `fillrange`, `foreground_color`, `grid`, `group`, `guidefont`, `label`, `layout`, `legend`, `legendfont`, `linealpha`, `linecolor`, `linestyle`, `linetype`, `linewidth`, `markeralpha`, `markercolor`, `markershape`, `markersize`, `markerstrokecolor`, `markerstrokewidth`, `n`, `nbins`, `nc`, `nlevels`, `nr`, `orientation`, `quiver`, `ribbon`, `show`, `size`, `smooth`, `tickfont`, `title`, `windowtitle`, `x`, `xerror`, `xflip`, `xlabel`, `xlims`, `xscale`, `xticks`, `y`, `yerror`, `yflip`, `ylabel`, `ylims`, `yrightlabel`, `yscale`, `yticks`, `z`, `zcolor`
 - Supported values for axis: `:auto`, `:left`, `:right`
-- Supported values for linetype: `:bar`, `:contour`, `:density`, `:heatmap`, `:hexbin`, `:hist`, `:hline`, `:line`, `:none`, `:ohlc`, `:path`, `:path3d`, `:scatter`, `:scatter3d`, `:steppost`, `:steppre`, `:sticks`, `:surface`, `:vline`, `:wireframe`
-- Supported values for linestyle: `:auto`, `:dash`, `:dashdot`, `:dot`, `:solid`
-- Supported values for marker: `:Plots.Shape`, `:cross`, `:diamond`, `:dtriangle`, `:ellipse`, `:hexagon`, `:none`, `:pentagon`, `:rect`, `:star5`, `:utriangle`, `:xcross`
+- Supported values for linetype: `:bar`, `:contour`, `:density`, `:heatmap`, `:hexbin`, `:hist`, `:hist2d`, `:hline`, `:line`, `:none`, `:ohlc`, `:path`, `:path3d`, `:pie`, `:scatter`, `:scatter3d`, `:steppost`, `:steppre`, `:sticks`, `:surface`, `:vline`, `:wireframe`
+- Supported values for linestyle: `:auto`, `:dash`, `:dashdot`, `:dashdotdot`, `:dot`, `:solid`
+- Supported values for marker: `:Plots.Shape`, `:auto`, `:cross`, `:diamond`, `:dtriangle`, `:ellipse`, `:heptagon`, `:hexagon`, `:hline`, `:none`, `:octagon`, `:pentagon`, `:rect`, `:star4`, `:star5`, `:star6`, `:star7`, `:star8`, `:utriangle`, `:vline`, `:xcross`
 - Is `subplot`/`subplot!` supported? Yes
 
-(Automatically generated: 2016-02-27T18:06:33)
+(Automatically generated: 2016-04-27T10:30:12)

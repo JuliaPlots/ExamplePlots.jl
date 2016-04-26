@@ -74,10 +74,10 @@ const _examples = PlotExample[
               [
                 :(scatter!(rand(100), markersize=6, c=:orange))
               ]),
-  PlotExample("Heatmaps",
+  PlotExample("Bi-dimensional histogram",
               "",
               [
-                :(heatmap(randn(10000),randn(10000), nbins=20))
+                :(histogram2d(randn(10000),randn(10000), nbins=20))
               ]),
   PlotExample("Line types",
               "",
@@ -101,7 +101,7 @@ const _examples = PlotExample[
                 :(n = length(markers)),
                 :(x = linspace(0,10,n+2)[2:end-1]),
                 :(y = repmat(reverse(x)', n, 1)),
-                :(scatter(x, y, m=(8,:auto), lab=map(string,markers), bg=:linen, xlim=(0,10), ylim=(0,10)))
+                :(scatter(x, y, lab=map(string,markers), bg=:linen, xlim=(0,10), ylim=(0,10)))
               ]),
   PlotExample("Bar",
               "x is the midpoint of the bar. (todo: allow passing of edges instead of midpoints)",
