@@ -119,18 +119,55 @@ This hook gave us a nice way to swap out the input data and add custom visualiza
 
 ### Step 4:  Apply groupings
 
+When you'd like to split a data series into multiple plot series, you can use the `group` keyword.  Attributes can be applied to the resulting
+series as if your data had been already separated into distinct input data.  The `group` variable determines how to split the data and also assigns the legend label.
+
+In this example, we split the data points into 3 groups randomly, and give them different marker shapes (`[:s :o :x]` are aliases for `:star5`, `:octagon`, and `:xcross`).
+The other attibutes (`:markersize` and `:markeralpha`) are shared.
+
 ```julia
 scatter(rand(100), group = rand(1:3, 100), marker = (10,0.3,[:s :o :x]))
 ```
 
 ![pipeline_img](examples/img/pipeline4.png)
 
-### Step 5:  
+### Step 5:  Process Input Data
+
+Plots will rarely ask you to pre-process your own inputs.  You have a Julia array? Great.  DataFrame? No problem.  Surface function? You got it.
+
+During this step, Plots will translate your input data (within the context of the plot type and other inputs) into a list of sliced and/or expanded representations,
+where each item represents the data for one plot series.  Under the hood, it makes heavy use of [multiple dispatch](http://docs.julialang.org/en/release-0.4/manual/methods/)
+in the internal methods `process_inputs`, `convertToAnyVector`,  and `compute_xyz`.
 
 ```julia
+# Any AbstractMatrix will create 4 series... 1 for each column.
+# As there is only one input, it is assigned to the y-axis,
+#  and x values are imputed as the range 1:size(y,1).
+plot(rand(100,4))
+
+# If the first argument is a DataFrame, subsequent symbols are mapped to columns of that DataFrame.
+plot(dataframe, :column_name_x, :column_name_y)
+
+# Functions are mapped to vectors, or between endpoints, or even to the current axis ranges.
+
+# y = map(f, x)
+plot(x, sin)
+
+# can reverse
+plot(sin, x)
+
+# plot between values (range is imputed)
+plot(sin, xmin, xmax)
+
+# plot covering the current axis
+plot!(sin)
+
+# plot lists of functions
+plot([sin, cos], xmin, xmax)
 ```
 
-![pipeline_img](examples/img/pipeline5.png)
+There is also support for strings, dates, surfaces, and more.  And you can always `wrap(input_object)` if
+you want to pass something through directly to the backend.  (Perhaps the backend supports something that Plots does not)
 
 ### Step 6:
 
