@@ -159,7 +159,7 @@ plot(sin, x)
 # plot between values (range is imputed)
 plot(sin, xmin, xmax)
 
-# plot covering the current axis
+# plot using the current x-limits
 plot!(sin)
 
 # plot lists of functions
@@ -169,17 +169,41 @@ plot([sin, cos], xmin, xmax)
 There is also support for strings, dates, surfaces, and more.  And you can always `wrap(input_object)` if
 you want to pass something through directly to the backend.  (Perhaps the backend supports something that Plots does not)
 
-### Step 6:
+### Step 6: Build the series arguments
+
+At this point, it's time to process the multitude of positional and keyword arguments which will define the visualization for each data series.
+We track the index number of this series relative to the command, the plot, and any wrapping subplot.  This allows us to fine-tune which sub-arguments
+apply to this series, and possibly pick an intelligent default value.  For example, line colors are chosen to be distinguishable from both the background and other lines, default labels are assigned, shapes are chosen, and aliases applied where valid.  Finally, warnings will be issued if a plotting feature is not supported by the backend.
+
+### Step 7:  Series recipes
+
+Certain visualizations are composed of existing building blocks, contrary to many other plotting libraries.  Rather than start from scratch for a new
+visualization, you can incorporate plot components in a modular way.  Box-plots, violin plots, errorbars, ribbons, and quiver plots are all examples
+of visualizations that are built as series recipes as opposed to standalone visualizations.  The generalized approach allows us to do complex recipes
+in backends that wouldn't otherwise support the functionality.
+
+Some examples:
+- [boxplot/violin](https://github.com/tbreloff/ExamplePlots.jl/blob/master/notebooks/boxplot.ipynb)
+- [errorbar/ribbon](https://github.com/tbreloff/ExamplePlots.jl/blob/master/notebooks/errorbars.ipynb)
+- [quiver](https://github.com/tbreloff/ExamplePlots.jl/blob/master/notebooks/quiver.ipynb)
+
+### Step 8: Add annotations
+
+Annotations are written over the plot using plot-coordinates.
 
 ```julia
+y = rand(10)
+plot(y,ann=(3,y[3],text("this is #3",:left)))
+annotate!([(5,y[5],text("this is #5",16,:red,:center)),(10,y[10],text("this is #10",:right,20,"courier"))])
 ```
 
-![pipeline_img](examples/img/pipeline6.png)
+![pipeline_img](examples/img/pyplot/pyplot_example_20.png)
 
+### Step 9: Update global Plot attributes
 
-### Step 7:  
+Set the title, axis labels/limits/ticks/scale/flip, background and foreground colors, legends, colorbars, window size, and more.
 
-```julia
-```
+### Step 10: Display it
 
-![pipeline_img](examples/img/pipeline7.png)
+Finally we make this plot "current", and optionally display it.  Pass `show=true` to override the default display behavior (to bring up a gui window while
+in IJulia, for example).  A semicolon in the REPL or IJulia will suppress display. 
