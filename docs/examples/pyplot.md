@@ -1,5 +1,3 @@
-## Examples for backend: pyplot
-
 ### Initialize
 
 ```julia
@@ -28,8 +26,8 @@ Easily build animations.  (`convert` or `ffmpeg` must be available to generate t
 ```julia
 p = plot([sin,cos],zeros(0),leg=false)
 anim = Animation()
-for x = linspace(0,10π,100) # /Users/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 30:
-    push!(p,x,Float64[sin(x),cos(x)]) # /Users/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 31:
+for x = linspace(0,10π,100) # /home/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 30:
+    push!(p,x,Float64[sin(x),cos(x)]) # /home/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 31:
     frame(anim)
 end
 ```
@@ -41,7 +39,7 @@ end
 Plot function pair (x(u), y(u)).
 
 ```julia
-plot(sin,(x->begin  # /Users/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 37:
+plot(sin,(x->begin  # /home/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 37:
             sin(2x)
         end),0,2π,line=4,leg=false,fill=(0,:orange))
 ```
@@ -54,7 +52,7 @@ Access predefined palettes (or build your own with the `colorscheme` method).  L
 
 ```julia
 y = rand(100)
-plot(0:10:100,rand(11,4),lab="lines",w=3,palette=:grays,fill=(0.5,:auto))
+plot(0:10:100,rand(11,4),lab="lines",w=3,palette=:grays,fill=(0,:auto),α=0.6)
 scatter!(y,zcolor=abs(y - 0.5),m=(:heat,0.8,stroke(1,:green)),ms=10 * abs(y - 0.5) + 4,lab="grad")
 ```
 
@@ -93,7 +91,7 @@ Plot multiple series with different numbers of points.  Mix arguments that apply
 
 ```julia
 ys = Vector[rand(10),rand(20)]
-plot(ys,line=(:dot,4,[:black :orange]),marker=([:hex :d],12,0.8,stroke(3,:gray)))
+plot(ys,color=[:black :orange],line=(:dot,4),marker=([:hex :d],12,0.8,stroke(3,:gray)))
 ```
 
 ![](img/pyplot/pyplot_example_7.png)
@@ -118,12 +116,12 @@ scatter!(rand(100),markersize=6,c=:orange)
 
 ![](img/pyplot/pyplot_example_9.png)
 
-### Heatmaps
+### Histogram2D
 
 
 
 ```julia
-heatmap(randn(10000),randn(10000),nbins=20)
+histogram2d(randn(10000),randn(10000),nbins=20)
 ```
 
 ![](img/pyplot/pyplot_example_10.png)
@@ -162,7 +160,7 @@ markers = setdiff(supportedMarkers(),[:none,:auto,Shape])'
 n = length(markers)
 x = (linspace(0,10,n + 2))[2:end - 1]
 y = repmat(reverse(x)',n,1)
-scatter(x,y,m=(8,:auto),lab=map(string,markers),bg=:linen)
+scatter(x,y,m=(8,:auto),lab=map(string,markers),bg=:linen,xlim=(0,10),ylim=(0,10))
 ```
 
 ![](img/pyplot/pyplot_example_13.png)
@@ -172,7 +170,7 @@ scatter(x,y,m=(8,:auto),lab=map(string,markers),bg=:linen)
 x is the midpoint of the bar. (todo: allow passing of edges instead of midpoints)
 
 ```julia
-bar(randn(999))
+bar(randn(99))
 ```
 
 ![](img/pyplot/pyplot_example_14.png)
@@ -190,7 +188,7 @@ histogram(randn(1000),nbins=20)
 ### Subplots
 
   subplot and subplot! are distinct commands which create many plots and add series to them in a circular fashion.
-  You can define the layout with keyword params... either set the number of plots `n` (and optionally number of rows `nr` or 
+  You can define the layout with keyword params... either set the number of plots `n` (and optionally number of rows `nr` or
   number of columns `nc`), or you can set the layout directly with `layout`.
 
 
@@ -205,7 +203,7 @@ subplot(randn(100,5),layout=[1,1,3],t=[:line :hist :scatter :step :bar],nbins=10
 Note here the automatic grid layout, as well as the order in which new series are added to the plots.
 
 ```julia
-subplot(Plots.fakedata(100,10),n=4,palette=[:grays :blues :heat :lightrainbow],bg=[:orange :pink :darkblue :black])
+subplot(Plots.fakedata(100,10),n=4,palette=[:grays :blues :heat :lightrainbow],bg_inside=[:orange :pink :darkblue :black])
 ```
 
 ![](img/pyplot/pyplot_example_17.png)
@@ -250,13 +248,25 @@ plot(0.1:0.2:0.9,0.7 * rand(5) + 0.15,l=(3,:dash,:lightblue),m=(Shape(verts),30,
 ```julia
 x = 1:0.3:20
 y = x
-f(x,y) = begin  # /Users/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 172:
+f(x,y) = begin  # /home/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 172:
         sin(x) + cos(y)
     end
 contour(x,y,f,fill=true)
 ```
 
 ![](img/pyplot/pyplot_example_22.png)
+
+### Pie
+
+
+
+```julia
+x = ["Nerds","Hackers","Scientists"]
+y = [0.4,0.35,0.25]
+pie(x,y,title="The Julia Community",l=0.5)
+```
+
+![](img/pyplot/pyplot_example_23.png)
 
 ### 3D
 
@@ -274,11 +284,47 @@ plot!(zeros(n),zeros(n),1:n,w=10)
 
 ![](img/pyplot/pyplot_example_24.png)
 
-- Supported arguments: `annotation`, `axis`, `background_color`, `color_palette`, `fillalpha`, `fillcolor`, `fillrange`, `foreground_color`, `grid`, `group`, `guidefont`, `label`, `layout`, `legend`, `legendfont`, `linealpha`, `linecolor`, `linestyle`, `linetype`, `linewidth`, `markeralpha`, `markercolor`, `markershape`, `markersize`, `markerstrokecolor`, `markerstrokewidth`, `n`, `nbins`, `nc`, `nlevels`, `nr`, `show`, `size`, `smooth`, `tickfont`, `title`, `windowtitle`, `x`, `xflip`, `xlabel`, `xlims`, `xscale`, `xticks`, `y`, `yflip`, `ylabel`, `ylims`, `yrightlabel`, `yscale`, `yticks`, `z`, `zcolor`
+### DataFrames
+
+Plot using DataFrame column symbols.
+
+```julia
+iris = RDatasets.dataset("datasets","iris")
+scatter(iris,:SepalLength,:SepalWidth,group=:Species,title="My awesome plot",xlabel="Length",ylabel="Width",m=(0.5,[:+ :h :star7],12),bg=RGB(0.2,0.2,0.2))
+```
+
+![](img/pyplot/pyplot_example_25.png)
+
+### Groups and Subplots
+
+
+
+```julia
+group = rand(map((i->begin  # /home/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 209:
+                    "group $(i)"
+                end),1:4),100)
+subplot(rand(100),group=group,n=3,linetype=[:bar :scatter :step])
+```
+
+![](img/pyplot/pyplot_example_26.png)
+
+### Polar Plots
+
+
+
+```julia
+Θ = linspace(0,1.5π,100)
+r = abs(0.1 * randn(100) + sin(3Θ))
+plot(Θ,r,polar=true,m=2)
+```
+
+![](img/pyplot/pyplot_example_27.png)
+
+- Supported arguments: `annotation`, `aspect_ratio`, `axis`, `background_color`, `background_color_inside`, `background_color_legend`, `background_color_outside`, `bins`, `color_palette`, `colorbar`, `contours`, `fillalpha`, `fillcolor`, `fillrange`, `foreground_color`, `foreground_color_axis`, `foreground_color_border`, `foreground_color_grid`, `foreground_color_legend`, `foreground_color_text`, `grid`, `group`, `guidefont`, `label`, `layout`, `legend`, `legendfont`, `levels`, `linealpha`, `linecolor`, `linestyle`, `linetype`, `linewidth`, `marker_z`, `markeralpha`, `markercolor`, `markershape`, `markersize`, `markerstrokealpha`, `markerstrokecolor`, `markerstrokewidth`, `n`, `nc`, `normalize`, `nr`, `orientation`, `overwrite_figure`, `polar`, `quiver`, `ribbon`, `seriesalpha`, `seriescolor`, `show`, `size`, `smooth`, `tickfont`, `title`, `weights`, `windowtitle`, `x`, `xerror`, `xflip`, `xlabel`, `xlims`, `xrotation`, `xscale`, `xticks`, `y`, `yerror`, `yflip`, `ylabel`, `ylims`, `yrightlabel`, `yrotation`, `yscale`, `yticks`, `z`, `z`, `zflip`, `zlabel`, `zlims`, `zrotation`, `zscale`, `zticks`
 - Supported values for axis: `:auto`, `:left`, `:right`
-- Supported values for linetype: `:bar`, `:contour`, `:density`, `:heatmap`, `:hexbin`, `:hist`, `:hline`, `:line`, `:none`, `:path`, `:path3d`, `:scatter`, `:scatter3d`, `:steppost`, `:steppre`, `:sticks`, `:vline`
+- Supported values for linetype: `:bar`, `:box`, `:contour`, `:contour3d`, `:density`, `:heatmap`, `:hexbin`, `:hist`, `:hist2d`, `:hline`, `:line`, `:none`, `:path`, `:path3d`, `:pie`, `:quiver`, `:scatter`, `:scatter3d`, `:shape`, `:steppost`, `:steppre`, `:sticks`, `:surface`, `:violin`, `:vline`, `:wireframe`
 - Supported values for linestyle: `:auto`, `:dash`, `:dashdot`, `:dot`, `:solid`
-- Supported values for marker: `:Plots.Shape`, `:auto`, `:cross`, `:diamond`, `:dtriangle`, `:ellipse`, `:heptagon`, `:hexagon`, `:none`, `:octagon`, `:pentagon`, `:rect`, `:star4`, `:star5`, `:star6`, `:star7`, `:star8`, `:utriangle`, `:xcross`
+- Supported values for marker: `:Plots.Shape`, `:auto`, `:cross`, `:diamond`, `:dtriangle`, `:ellipse`, `:heptagon`, `:hexagon`, `:hline`, `:none`, `:octagon`, `:pentagon`, `:rect`, `:star4`, `:star5`, `:star6`, `:star7`, `:star8`, `:utriangle`, `:vline`, `:xcross`
 - Is `subplot`/`subplot!` supported? Yes
 
-(Automatically generated: 2015-12-07T23:27:13)
+(Automatically generated: 2016-05-03T17:19:52)
