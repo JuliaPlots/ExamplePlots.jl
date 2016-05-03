@@ -183,6 +183,7 @@ of visualizations that are built as series recipes as opposed to standalone visu
 in backends that wouldn't otherwise support the functionality.
 
 Some examples:
+
 - [boxplot/violin](https://github.com/tbreloff/ExamplePlots.jl/blob/master/notebooks/boxplot.ipynb)
 - [errorbar/ribbon](https://github.com/tbreloff/ExamplePlots.jl/blob/master/notebooks/errorbars.ipynb)
 - [quiver](https://github.com/tbreloff/ExamplePlots.jl/blob/master/notebooks/quiver.ipynb)
@@ -206,4 +207,4 @@ Set the title, axis labels/limits/ticks/scale/flip, background and foreground co
 ### Step 10: Display it
 
 Finally we make this plot "current", and optionally display it.  Pass `show=true` to override the default display behavior (to bring up a gui window while
-in IJulia, for example).  A semicolon in the REPL or IJulia will suppress display. 
+in IJulia, for example).  A semicolon in the REPL or IJulia will suppress display.
