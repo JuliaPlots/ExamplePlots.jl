@@ -19,7 +19,9 @@ Use the preprocessing pipeline in Plots to fully describe your visualization bef
 
 Please add wishlist items, bugs, or any other comments/questions to the [issues list](https://github.com/tbreloff/Plots.jl/issues).
 
-## A Quick Example
+---
+
+### A Quick Example -- Lorenz Attractor
 
 ```julia
 using Plots
@@ -47,7 +49,9 @@ end every 10
 
 ![](examples/img/lorenz.gif)
 
-## Installation
+---
+
+### Installation
 
 First, add the package
 
@@ -72,7 +76,9 @@ Pkg.add("UnicodePlots")
 Pkg.add("PlotlyJS")
 ```
 
-## Initialize
+---
+
+### Initialize
 
 ```julia
 using Plots
@@ -98,8 +104,10 @@ Tip: Plots will pick a default backend for you automatically based on what backe
 override this choice by setting an environment variable in your ~/.juliarc.jl file: ENV["PLOTS_DEFAULT_BACKEND"] = "PlotlyJS"
 </div>
 
+---
 
-#### Example (inspired by [this](http://gadflyjl.org/geom_point.html))
+
+### Another Example -- Iris Dataset
 
 ```julia
 # switch to Gadfly as a backend
@@ -122,7 +130,9 @@ png("iris")
 
 ![iris_plt](examples/img/iris.png)
 
-## API
+---
+
+### Basic Concepts
 
 Use `plot` to create a new plot object, and `plot!` to add to an existing one:
 
@@ -175,9 +185,9 @@ Tip: A common error is to pass a Vector when you intend for each item to apply t
   </code></div>
 </div>
 
-```
+---
 
-## Subplots
+### Subplots
 
 With `subplot`, create multiple plots at once, with flexible layout options:
 
@@ -203,7 +213,9 @@ subplot(p1, p2)
 Tip: Calling `subplot!` on a `Plot` object, or `plot!` on a `Subplot` object will throw an error.
 </div>
 
-## Animations
+---
+
+### Animations
 
 Animations are created in 3 steps:
 
@@ -212,11 +224,13 @@ Animations are created in 3 steps:
 - Convert the frames to an animated gif with `gif(anim, filename, fps=15)`
 
 <div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium; margin: 10px;">
-Tip: the convenience macros `@gif` and `@animate` simplify this code immensely.  See the Lorenz Attractor example for the short version, or
+Tip: the convenience macros `@gif` and `@animate` simplify this code immensely.  See the <a href="#a-quick-example----lorenz-attractor">Lorenz Attractor example</a> for the short version, or
 the <a href="examples/pyplot/#functions-adding-data-and-animations">pyplot example</a> for the long version.
 </div>
 
-## Misc
+---
+
+### Tips
 
 <div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium; margin: 10px;">
 Tip: With <a href="supported">supported backends</a>, you can pass a Plots.Shape object for the marker/markershape arguments.  Shape takes a vector of 2-tuples in the constructor, defining the points of the polygon's shape in a unit-scaled coordinate space.  To make a square, for example, you could do: Shape([(1,1),(1,-1),(-1,-1),(-1,1)])
@@ -234,3 +248,5 @@ Tip: Call `gui()` to display the plot in a window.  Interactivity depends on bac
 <div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium; margin: 10px;">
 Tip: See the <a href="examples/pyplot">examples</a> for plotting ideas and features.
 </div>
+
+---
