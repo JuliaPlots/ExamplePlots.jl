@@ -166,21 +166,15 @@ Tip: A common error is to pass a Vector when you intend for each item to apply t
 
 <div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium; margin: 10px;">
 <p>Tip: You can update certain plot settings after plot creation:</p>
-<code>
-plot!(title = "New Title", xlabel = "New xlabel", ylabel = "New ylabel")
-plot!(xlims = (0, 5.5), ylims = (-2.2, 6), xticks = 0:0.5:10, yticks = [0,1,5,10])
+  <div style="background-color: white; margin: 10px; border-width: thin;"><code>
+    plot!(title = "New Title", xlabel = "New xlabel", ylabel = "New ylabel")
+    plot!(xlims = (0, 5.5), ylims = (-2.2, 6), xticks = 0:0.5:10, yticks = [0,1,5,10])
 
-# or using magic:
-xaxis!("mylabel", :log10, :flip)
-</code>
+    # or using magic:
+    xaxis!("mylabel", :log10, :flip)
+  </code></div>
 </div>
 
-```julia
-plot!(title = "New Title", xlabel = "New xlabel", ylabel = "New ylabel")
-plot!(xlims = (0, 5.5), ylims = (-2.2, 6), xticks = 0:0.5:10, yticks = [0,1,5,10])
-
-# using shorthands:
-xaxis!("mylabel", :log10, :flip)
 ```
 
 ## Subplots
@@ -219,13 +213,13 @@ Animations are created in 3 steps:
 
 <div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium; margin: 10px;">
 Tip: the convenience macros `@gif` and `@animate` simplify this code immensely.  See the Lorenz Attractor example for the short version, or
-the <a href="/examples/pyplot/#functions-adding-data-and-animations">pyplot example</a> for the long version.
+the <a href="examples/pyplot/#functions-adding-data-and-animations">pyplot example</a> for the long version.
 </div>
 
 ## Misc
 
 <div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium; margin: 10px;">
-Tip: With <a href="/supported">supported backends</a>, you can pass a Plots.Shape object for the marker/markershape arguments.  Shape takes a vector of 2-tuples in the constructor, defining the points of the polygon's shape in a unit-scaled coordinate space.  To make a square, for example, you could do: Shape([(1,1),(1,-1),(-1,-1),(-1,1)])
+Tip: With <a href="supported">supported backends</a>, you can pass a Plots.Shape object for the marker/markershape arguments.  Shape takes a vector of 2-tuples in the constructor, defining the points of the polygon's shape in a unit-scaled coordinate space.  To make a square, for example, you could do: Shape([(1,1),(1,-1),(-1,-1),(-1,1)])
 </div>
 
 <div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium; margin: 10px;">
@@ -238,5 +232,5 @@ Tip: Call `gui()` to display the plot in a window.  Interactivity depends on bac
 </div>
 
 <div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium; margin: 10px;">
-Tip: See the <a href="/examples/pyplot">examples</a> for plotting ideas and features.
+Tip: See the <a href="examples/pyplot">examples</a> for plotting ideas and features.
 </div>
