@@ -9,24 +9,25 @@ Plots is a visualization interface and toolset.  It sits above other visualizati
 
 My goals with the package are:
 
-- **Intuitive**.  Start generating complex plots without reading volumes of documentation.  Commands should "just work".
+- **Powerful**.  Do more with less.  Complex visualizations become easy.
+- **Intuitive**.  Start generating plots without reading volumes of documentation.  Commands should "just work".
 - **Concise**.  Less code means fewer mistakes and more efficient development/analysis.
 - **Flexible**.  Produce your favorite plots from your favorite package, but quicker and simpler.
-- **Consistent**.  Don't commit to one graphics package.  Use the same code and access the strengths of all backends.
+- **Consistent**.  Don't commit to one graphics package.  Use the same code and access the strengths of all [backends](http://plots.readthedocs.io/en/latest/backends/).
 - **Lightweight**.  Very few dependencies, since backends are loaded and initialized dynamically.
+- **Smart**.  It's not quite AGI, but Plots should figure out what you **want** it to do... not just what you **tell** it.
 
-Use the preprocessing pipeline in Plots to fully describe your visualization before it calls the backend code.  This maintains modularity and allows for efficient separation of front end code, algorithms, and backend graphics.  New graphical backends can be added with minimal effort.
+Use the [preprocessing pipeline](http://plots.readthedocs.io/en/latest/pipeline/) in Plots to fully describe your visualization before it calls the backend code.  This maintains modularity and allows for efficient separation of front end code, algorithms, and backend graphics.  New graphical backends can be added with minimal effort.
 
 Please add wishlist items, bugs, or any other comments/questions to the [issues list](https://github.com/tbreloff/Plots.jl/issues).
 
 ---
 
-### A Quick Example -- Lorenz Attractor
+### Simple is Beautiful
+
+Lorenz Attractor
 
 ```julia
-using Plots
-pyplot(size=(600,300))
-
 # initialize the attractor
 n = 1500
 dt = 0.02
@@ -49,9 +50,43 @@ end every 10
 
 ![](examples/img/lorenz.gif)
 
+Make some waves
+
+```julia
+using Plots
+pyplot(reuse=true)
+
+@gif for i in linspace(0,2π,100)
+    X = Y = linspace(-5,5,40)
+    surface(X, Y, (x,y) -> sin(x+10sin(i))+cos(y))
+end
+```
+
+![waves](examples/img/waves.gif)
+
+Iris Dataset
+
+```julia
+# load a dataset
+using RDatasets
+iris = dataset("datasets", "iris");
+
+# Scatter plot with some custom settings
+scatter(iris, :SepalLength, :SepalWidth, group=:Species,
+        title = "My awesome plot",
+        xlabel = "Length", ylabel = "Width",
+        m=(0.5, [:+ :h :star7], 12),
+        bg=RGB(.2,.2,.2))
+
+# save a png
+png("iris")
+```
+
+![iris_plt](examples/img/iris.png)
+
 ---
 
-### Installation
+### Install
 
 First, add the package
 
@@ -104,31 +139,6 @@ Tip: Plots will pick a default backend for you automatically based on what backe
 override this choice by setting an environment variable in your ~/.juliarc.jl file: ENV["PLOTS_DEFAULT_BACKEND"] = "PlotlyJS"
 </div>
 
----
-
-
-### Another Example -- Iris Dataset
-
-```julia
-# switch to Gadfly as a backend
-gadfly()
-
-# load a dataset
-using RDatasets
-iris = dataset("datasets", "iris");
-
-# Scatter plot with some custom settings
-scatter(iris, :SepalLength, :SepalWidth, group=:Species,
-        title = "My awesome plot",
-        xlabel = "Length", ylabel = "Width",
-        m=(0.5, [:+ :h :star7], 12),
-        bg=RGB(.2,.2,.2))
-
-# save a png
-png("iris")
-```
-
-![iris_plt](examples/img/iris.png)
 
 ---
 
@@ -224,7 +234,7 @@ Animations are created in 3 steps:
 - Convert the frames to an animated gif with `gif(anim, filename, fps=15)`
 
 <div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium; margin: 10px;">
-Tip: the convenience macros `@gif` and `@animate` simplify this code immensely.  See the <a href="#a-quick-example----lorenz-attractor">Lorenz Attractor example</a> for the short version, or
+Tip: the convenience macros `@gif` and `@animate` simplify this code immensely.  See the <a href="#simple-is-beautiful">examples above</a> for the short version, or
 the <a href="examples/pyplot/#functions-adding-data-and-animations">pyplot example</a> for the long version.
 </div>
 
