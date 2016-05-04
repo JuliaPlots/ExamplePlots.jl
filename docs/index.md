@@ -84,7 +84,9 @@ Choose a backend, and optionally override default settings at the same time:
 pyplot(size = (300,300), legend = false)
 ```
 
-<div style="background-color: lightblue;">Tip: Backend methods are all-lowercase, and match the corresponding backend package name.</div>
+<div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium;">
+Tip: Backend methods are all-lowercase, and match the corresponding backend package name.
+</div>
 
 > Note: The underlying plotting backends are not imported and initialized immediately, thus they are only
 loaded as-needed to reduce dependencies.
