@@ -100,11 +100,10 @@ type MyVecWrapper
 end
 mv = MyVecWrapper(rand(100))
 
-# add specialized attributes for custom types
-function Plots._apply_recipe(d::Plots.KW, mv::MyVecWrapper; kw...)
-    d[:markershape] = :circle
-    d[:markersize] = 30
-    (mv.v,)
+@recipe mv::MyVecWrapper begin
+    :shape => :circle
+    :ms => 30
+    (mv.v, )
 end
 
 subplot(
