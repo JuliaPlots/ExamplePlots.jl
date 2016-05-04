@@ -186,7 +186,7 @@ Tip: A common error is to pass a Vector when you intend for each item to apply t
 
 <div style="background-color: lightblue; padding: 10px; border-style: solid; border-width: medium; margin: 10px;">
 <p>Tip: You can update certain plot settings after plot creation:</p>
-  <div style="background-color: white; margin: 10px; border-width: thin;"><pre><code>
+  <div style="background-color: white; margin: 2px; border-width: thin;"><pre><code>
     plot!(title = "New Title", xlabel = "New xlabel", ylabel = "New ylabel")
     plot!(xlims = (0, 5.5), ylims = (-2.2, 6), xticks = 0:0.5:10, yticks = [0,1,5,10])
 
