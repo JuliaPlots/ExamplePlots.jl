@@ -84,13 +84,13 @@ Choose a backend, and optionally override default settings at the same time:
 pyplot(size = (300,300), legend = false)
 ```
 
-*Note: Backend methods are all-lowercase, and match the corresponding backend package name.*
+> Note: Backend methods are all-lowercase, and match the corresponding backend package name.
 
-*Note: The underlying plotting backends are not imported and initialized immediately, thus they are only
-loaded as-needed to reduce dependencies.*
+> Note: The underlying plotting backends are not imported and initialized immediately, thus they are only
+loaded as-needed to reduce dependencies.
 
-*Note: Plots will pick a default backend for you automatically based on what backends are installed.  You can
-override this choice by setting an environment variable in your `~/.juliarc.jl` file: `ENV["PLOTS_DEFAULT_BACKEND"] = "PlotlyJS"`*
+> Note: Plots will pick a default backend for you automatically based on what backends are installed.  You can
+override this choice by setting an environment variable in your `~/.juliarc.jl` file: `ENV["PLOTS_DEFAULT_BACKEND"] = "PlotlyJS"`
 
 
 #### Example (inspired by [this](http://gadflyjl.org/geom_point.html))
@@ -126,7 +126,7 @@ plot!(args...; kw...)                 # changes plot `current()`
 plot!(plt, args...; kw...)            # changes plot `plt`
 ```
 
-*Note: subplot and subplot! follow the same convention*
+> Note: subplot and subplot! follow the same convention
 
 Arguments can take [many forms](/input_data).  Some valid examples:
 
@@ -151,9 +151,9 @@ Keyword arguments allow for customization from the defaults.  Some rules:
 - If the argument is a "matrix-type", then [each column will map to a series](/input_data/#columns-are-series), cycling through columns if there are fewer columns than series.  Anything else will apply the argument value to every series.
 - Many arguments accept many different types... for example the `color` (also `markercolor`, `fillcolor`, etc) argument will accept strings or symbols with a color name, or any `Colors.Colorant`, or a `ColorScheme`, or a symbol representing a `ColorGradient`, or an AbstractVector of colors/symbols/etc...
 
-*Note: A common error is to pass a Vector when you intend for each item to apply to only one series.  Instead of an n-length Vector, pass a 1xn Matrix.
+> Note: A common error is to pass a Vector when you intend for each item to apply to only one series.  Instead of an n-length Vector, pass a 1xn Matrix.
 
-*Note: You can update certain plot settings after plot creation:*
+> Note: You can update certain plot settings after plot creation:
 
 ```julia
 plot!(title = "New Title", xlabel = "New xlabel", ylabel = "New ylabel")
@@ -176,14 +176,14 @@ subplot(y; nc = 1)            # create an automatic grid, but fix the number of 
 subplot(y; layout = [1, 2])   # explicit layout.  Lists the number of plots in each row
 ```
 
-*Note: You can call `subplot!(args...; kw...)` to add to an existing subplot.*
+> Note: You can call `subplot!(args...; kw...)` to add to an existing subplot.*
 
 To create a grid of existing plots `p1` and `p2`, use:
 ```julia
 subplot(p1, p2)
 ```
 
-*Note: Calling `subplot!` on a `Plot` object, or `plot!` on a `Subplot` object will throw an error.*
+> Note: Calling `subplot!` on a `Plot` object, or `plot!` on a `Subplot` object will throw an error.
 
 ## Animations
 
@@ -193,12 +193,12 @@ Animations are created in 3 steps (see example #2):
 - Save each frame of the animation with `frame(anim)`.
 - Convert the frames to an animated gif with `gif(anim, filename, fps=15)`
 
-*Note: the convenience macros `@gif` and `@animate` simplify this code immensely.*
+> Note: the convenience macros `@gif` and `@animate` simplify this code immensely.
 
 ## Misc
 
-*Note: With supported backends, you can pass a `Plots.Shape` object for the `marker`/`markershape` arguments.  `Shape` takes a vector of 2-tuples in the constructor, defining the points of the polygon's shape in a unit-scaled coordinate space.  To make a square, for example, you could do `Shape([(1,1),(1,-1),(-1,-1),(-1,1)])`*
+> Note: With supported backends, you can pass a `Plots.Shape` object for the `marker`/`markershape` arguments.  `Shape` takes a vector of 2-tuples in the constructor, defining the points of the polygon's shape in a unit-scaled coordinate space.  To make a square, for example, you could do `Shape([(1,1),(1,-1),(-1,-1),(-1,1)])`
 
-*Note: You can see the default value for a given argument with `default(arg::Symbol)`, and set the default value with `default(arg::Symbol, value)` or `default(; kw...)`.  For example set the default window size and whether we should show a legend with `default(size=(600,400), leg=false)`.*
+> Note: You can see the default value for a given argument with `default(arg::Symbol)`, and set the default value with `default(arg::Symbol, value)` or `default(; kw...)`.  For example set the default window size and whether we should show a legend with `default(size=(600,400), leg=false)`.
 
-*Note: Call `gui()` to display the plot in a window.  Interactivity depends on backend.  Plotting at the REPL (without semicolon) implicitly calls `gui()`.*
+> Note: Call `gui()` to display the plot in a window.  Interactivity depends on backend.  Plotting at the REPL (without semicolon) implicitly calls `gui()`.
