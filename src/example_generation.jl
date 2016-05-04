@@ -54,7 +54,7 @@ const _examples = PlotExample[
                 :(yaxis!("YLABEL", :log10))
               ]),
   PlotExample("Two-axis",
-              "Use the `axis` arguments.\n\nNote: Currently only supported with Qwt and PyPlot",
+              "Use the `axis` arguments.",
               [
                 :(plot(Vector[randn(100), randn(100)*100], axis = [:l :r], ylabel="LEFT", yrightlabel="RIGHT", xlabel="X", title="TITLE"))
               ]),
@@ -232,6 +232,7 @@ function generate_markdown(pkgname::Symbol; skip = [])
   # set up the backend, and don't show the plots by default
   pkg = backend(pkgname)
   # default(:show, false)
+  default(reuse = true)
 
   # mkdir if necessary
   pkgdir = joinpath(IMGDIR, string(pkgname))
