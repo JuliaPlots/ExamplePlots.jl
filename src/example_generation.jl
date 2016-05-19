@@ -120,17 +120,17 @@ const _examples = PlotExample[
                 number of columns `nc`), or you can set the layout directly with `layout`.
               """,
               [
-                :(subplot(randn(100,5), layout=[1,1,3], t=[:line :hist :scatter :step :bar], nbins=10, leg=false))
+                :(plot(randn(100,5), layout=@layout([a;b;grid(1,3)]), t=[:line :hist :scatter :steppre :bar], nbins=10, leg=false))
               ]),
   PlotExample("Adding to subplots",
               "Note here the automatic grid layout, as well as the order in which new series are added to the plots.",
               [
-                :(subplot(Plots.fakedata(100,10), n=4, palette=[:grays :blues :heat :lightrainbow], bg_inside=[:orange :pink :darkblue :black]))
+                :(plot(Plots.fakedata(100,10), layout=4, palette=[:grays :blues :heat :lightrainbow], bg_inside=[:orange :pink :darkblue :black]))
               ]),
   PlotExample("",
               "",
               [
-                :(subplot!(Plots.fakedata(100,10)))
+                :(plot!(Plots.fakedata(100,10)))
               ]),
   PlotExample("Open/High/Low/Close",
               "Create an OHLC chart.  Pass in a vector of OHLC objects as your `y` argument.  Adjust the tick width with arg `markersize`.",
@@ -207,7 +207,7 @@ PlotExample("Groups and Subplots",
             "",
             [
               :(group = rand(map(i->"group $i",1:4),100)),
-              :(subplot(rand(100), group=group, n=3, linetype=[:bar :scatter :step]))
+              :(plot(rand(100), layout=@layout([a b;c]), group=group, n=3, linetype=[:bar :scatter :steppre]))
             ]),
 
 PlotExample("Polar Plots",
