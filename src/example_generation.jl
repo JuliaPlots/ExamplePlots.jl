@@ -133,23 +133,24 @@ const _examples = PlotExample[
                 :(plot!(Plots.fakedata(100,10)))
               ]),
   PlotExample("Open/High/Low/Close",
-              "Create an OHLC chart.  Pass in a vector of OHLC objects as your `y` argument.  Adjust the tick width with arg `markersize`.",
+              "Create an OHLC chart.  Pass in a list of (open,high,low,close) tuples as your `y` argument.  This uses recipes to first convert the tuples to OHLC objects, and subsequently create a :path series with the appropriate line segments.",
               [
                 :(n=20),
                 :(hgt=rand(n)+1),
                 :(bot=randn(n)),
                 :(openpct=rand(n)),
                 :(closepct=rand(n)),
-                :(y = [OHLC(openpct[i]*hgt[i]+bot[i], bot[i]+hgt[i], bot[i], closepct[i]*hgt[i]+bot[i]) for i in 1:n]),
-                :(ohlc(y; markersize=8))
+                :(y = [(openpct[i]*hgt[i]+bot[i], bot[i]+hgt[i], bot[i], closepct[i]*hgt[i]+bot[i]) for i in 1:n]),
+                :(ohlc(y))
               ]),
   PlotExample("Annotations",
-              "Currently only text annotations are supported.  Pass in a tuple or vector-of-tuples: (x,y,text).  `annotate!(ann)` is shorthand for `plot!(; annotation=ann)`",
+              "The `annotations` keyword is used for text annotations in data-coordinates.  Pass in a tuple (x,y,text) or a vector of annotations.  `annotate!(ann)` is shorthand for `plot!(; annotation=ann)`.  Series annotations are used for annotating individual data points.  They require only the annotation... x/y values are computed.  A `PlotText` object can be build with the method `text(string, attr...)`, which wraps font and color attributes.",
               [
                 :(y = rand(10)),
-                :(plot(y, ann=(3,y[3],text("this is #3",:left)))),
-                :(annotate!([(5,y[5],text("this is #5",16,:red,:center)),
-                             (10,y[10],text("this is #10",:right,20,"courier"))]))
+                :(plot(y, annotations = (3,y[3],text("this is #3",:left)), leg=false)),
+                :(annotate!([(5, y[5], text("this is #5",16,:red,:center)),
+                             (10, y[10], text("this is #10",:right,20,"courier"))])),
+                :(scatter!(linspace(2,8,6), rand(6), marker=(50,0.2,:orange), series_annotations = ["series","annotations","map","to","series",text("data",:green)]))
               ]),
   PlotExample("Custom Markers",
               "A `Plots.Shape` is a light wrapper around vertices of a polygon.  For supported backends, pass arbitrary polygons as the marker shapes.  Note: The center is (0,0) and the size is expected to be rougly the area of the unit circle.",
