@@ -215,7 +215,7 @@ PlotExample("Polar Plots",
             [
                 :(Θ = linspace(0,1.5π,100)),
                 :(r = abs(0.1randn(100)+sin(3Θ))),
-                :(plot(Θ, r, polar=true, m=2))
+                :(plot(Θ, r, proj=:polar, m=2))
             ]),
 ]
 
