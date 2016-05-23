@@ -140,7 +140,7 @@ const _examples = PlotExample[
                 :(bot=randn(n)),
                 :(openpct=rand(n)),
                 :(closepct=rand(n)),
-                :(y = [(openpct[i]*hgt[i]+bot[i], bot[i]+hgt[i], bot[i], closepct[i]*hgt[i]+bot[i]) for i in 1:n]),
+                :(y = OHLC[(openpct[i]*hgt[i]+bot[i], bot[i]+hgt[i], bot[i], closepct[i]*hgt[i]+bot[i]) for i in 1:n]),
                 :(ohlc(y))
               ]),
   PlotExample("Annotations",
@@ -218,6 +218,18 @@ PlotExample("Polar Plots",
                 :(r = abs(0.1randn(100)+sin(3Θ))),
                 :(plot(Θ, r, proj=:polar, m=2))
             ]),
+PlotExample("Heatmap, categorical axes, and aspect_ratio",
+            "",
+            [
+                :(xs = [string("x",i) for i=1:10]),
+                :(ys = [string("y",i) for i=1:4]),
+                :(z = float((1:4)*(1:10)')),
+                :(heatmap(xs, ys, z, aspect_ratio=1))
+            ]),
+
+            # TODO: layouts, margin, axis label rotation, title_location
+            # plot(rand(100,6),layout=@layout([a b; c]),title=["A" "B" "C"], title_location=:left, left_margin=[20mm 0mm], bottom_margin=50px, xrotation=60)
+
 ]
 
 # --------------------------------------------------------------------------------------
