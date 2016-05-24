@@ -73,18 +73,6 @@ yaxis!("YLABEL",:log10)
 
 ![](img/pyplot/pyplot_example_5.png)
 
-### Two-axis
-
-Use the `axis` arguments.
-
-Note: Currently only supported with Qwt and PyPlot
-
-```julia
-plot(Vector[randn(100),randn(100) * 100],axis=[:l :r],ylabel="LEFT",yrightlabel="RIGHT",xlabel="X",title="TITLE")
-```
-
-![](img/pyplot/pyplot_example_6.png)
-
 ### Arguments
 
 Plot multiple series with different numbers of points.  Mix arguments that apply to all series (marker/markersize) with arguments unique to each series (colors).  Special arguments `line`, `marker`, and `fill` will automatically figure out what arguments to set (for example, we are setting the `linestyle`, `linewidth`, and `color` arguments with `line`.)  Note that we pass a matrix of colors, and this applies the colors to each series.
@@ -193,7 +181,7 @@ histogram(randn(1000),nbins=20)
 
 
 ```julia
-subplot(randn(100,5),layout=[1,1,3],t=[:line :hist :scatter :step :bar],nbins=10,leg=false)
+plot(randn(100,5),layout=@layout([a,b,grid(1,3)]),t=[:line :hist :scatter :steppre :bar],nbins=10,leg=false)
 ```
 
 ![](img/pyplot/pyplot_example_16.png)
@@ -203,7 +191,7 @@ subplot(randn(100,5),layout=[1,1,3],t=[:line :hist :scatter :step :bar],nbins=10
 Note here the automatic grid layout, as well as the order in which new series are added to the plots.
 
 ```julia
-subplot(Plots.fakedata(100,10),n=4,palette=[:grays :blues :heat :lightrainbow],bg_inside=[:orange :pink :darkblue :black])
+plot(Plots.fakedata(100,10),layout=4,palette=[:grays :blues :heat :lightrainbow],bg_inside=[:orange :pink :darkblue :black])
 ```
 
 ![](img/pyplot/pyplot_example_17.png)
@@ -213,19 +201,36 @@ subplot(Plots.fakedata(100,10),n=4,palette=[:grays :blues :heat :lightrainbow],b
 
 
 ```julia
-subplot!(Plots.fakedata(100,10))
+plot!(Plots.fakedata(100,10))
 ```
 
 ![](img/pyplot/pyplot_example_18.png)
 
+### Open/High/Low/Close
+
+Create an OHLC chart.  Pass in a list of (open,high,low,close) tuples as your `y` argument.  This uses recipes to first convert the tuples to OHLC objects, and subsequently create a :path series with the appropriate line segments.
+
+```julia
+n = 20
+hgt = rand(n) + 1
+bot = randn(n)
+openpct = rand(n)
+closepct = rand(n)
+y = OHLC[(openpct[i] * hgt[i] + bot[i],bot[i] + hgt[i],bot[i],closepct[i] * hgt[i] + bot[i]) for i = 1:n]
+ohlc(y)
+```
+
+![](img/pyplot/pyplot_example_19.png)
+
 ### Annotations
 
-Currently only text annotations are supported.  Pass in a tuple or vector-of-tuples: (x,y,text).  `annotate!(ann)` is shorthand for `plot!(; annotation=ann)`
+The `annotations` keyword is used for text annotations in data-coordinates.  Pass in a tuple (x,y,text) or a vector of annotations.  `annotate!(ann)` is shorthand for `plot!(; annotation=ann)`.  Series annotations are used for annotating individual data points.  They require only the annotation... x/y values are computed.  A `PlotText` object can be build with the method `text(string, attr...)`, which wraps font and color attributes.
 
 ```julia
 y = rand(10)
-plot(y,ann=(3,y[3],text("this is #3",:left)))
+plot(y,annotations=(3,y[3],text("this is #3",:left)),leg=false)
 annotate!([(5,y[5],text("this is #5",16,:red,:center)),(10,y[10],text("this is #10",:right,20,"courier"))])
+scatter!(linspace(2,8,6),rand(6),marker=(50,0.2,:orange),series_annotations=["series","annotations","map","to","series",text("data",:green)])
 ```
 
 ![](img/pyplot/pyplot_example_20.png)
@@ -248,7 +253,7 @@ plot(0.1:0.2:0.9,0.7 * rand(5) + 0.15,l=(3,:dash,:lightblue),m=(Shape(verts),30,
 ```julia
 x = 1:0.3:20
 y = x
-f(x,y) = begin  # /home/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 172:
+f(x,y) = begin  # /home/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 173:
         sin(x) + cos(y)
     end
 contour(x,y,f,fill=true)
@@ -300,10 +305,10 @@ scatter(iris,:SepalLength,:SepalWidth,group=:Species,title="My awesome plot",xla
 
 
 ```julia
-group = rand(map((i->begin  # /home/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 209:
+group = rand(map((i->begin  # /home/tom/.julia/v0.4/ExamplePlots/src/example_generation.jl, line 210:
                     "group $(i)"
                 end),1:4),100)
-subplot(rand(100),group=group,n=3,linetype=[:bar :scatter :step])
+plot(rand(100),layout=@layout([a b;c]),group=group,n=3,linetype=[:bar :scatter :steppre])
 ```
 
 ![](img/pyplot/pyplot_example_26.png)
@@ -315,16 +320,39 @@ subplot(rand(100),group=group,n=3,linetype=[:bar :scatter :step])
 ```julia
 Θ = linspace(0,1.5π,100)
 r = abs(0.1 * randn(100) + sin(3Θ))
-plot(Θ,r,polar=true,m=2)
+plot(Θ,r,proj=:polar,m=2)
 ```
 
 ![](img/pyplot/pyplot_example_27.png)
 
-- Supported arguments: `annotation`, `aspect_ratio`, `axis`, `background_color`, `background_color_inside`, `background_color_legend`, `background_color_outside`, `bins`, `color_palette`, `colorbar`, `contours`, `fillalpha`, `fillcolor`, `fillrange`, `foreground_color`, `foreground_color_axis`, `foreground_color_border`, `foreground_color_grid`, `foreground_color_legend`, `foreground_color_text`, `grid`, `group`, `guidefont`, `label`, `layout`, `legend`, `legendfont`, `levels`, `linealpha`, `linecolor`, `linestyle`, `linetype`, `linewidth`, `marker_z`, `markeralpha`, `markercolor`, `markershape`, `markersize`, `markerstrokealpha`, `markerstrokecolor`, `markerstrokewidth`, `n`, `nc`, `normalize`, `nr`, `orientation`, `overwrite_figure`, `polar`, `quiver`, `ribbon`, `seriesalpha`, `seriescolor`, `show`, `size`, `smooth`, `tickfont`, `title`, `weights`, `windowtitle`, `x`, `xerror`, `xflip`, `xlabel`, `xlims`, `xrotation`, `xscale`, `xticks`, `y`, `yerror`, `yflip`, `ylabel`, `ylims`, `yrightlabel`, `yrotation`, `yscale`, `yticks`, `z`, `z`, `zflip`, `zlabel`, `zlims`, `zrotation`, `zscale`, `zticks`
+### Heatmap, categorical axes, and aspect_ratio
+
+
+
+```julia
+xs = [string("x",i) for i = 1:10]
+ys = [string("y",i) for i = 1:4]
+z = float((1:4) * 1:10')
+heatmap(xs,ys,z,aspect_ratio=1)
+```
+
+![](img/pyplot/pyplot_example_28.png)
+
+### Layouts, margins, label rotation, title location
+
+
+
+```julia
+plot(rand(100,6),layout=@layout([a b;c]),title=["A" "B" "C"],title_location=:left,left_margin=[20mm 0mm],bottom_margin=50px,xrotation=60)
+```
+
+![](img/pyplot/pyplot_example_29.png)
+
+- Supported arguments: `annotations`, `arrow`, `aspect_ratio`, `background_color`, `background_color_inside`, `background_color_legend`, `background_color_outside`, `bar_edges`, `bar_width`, `bins`, `color_palette`, `colorbar`, `contours`, `fillalpha`, `fillcolor`, `fillrange`, `foreground_color`, `foreground_color_axis`, `foreground_color_border`, `foreground_color_grid`, `foreground_color_legend`, `foreground_color_text`, `grid`, `group`, `guidefont`, `label`, `layout`, `legend`, `legendfont`, `levels`, `linealpha`, `linecolor`, `linestyle`, `linewidth`, `marker_z`, `markeralpha`, `markercolor`, `markershape`, `markersize`, `markerstrokealpha`, `markerstrokecolor`, `markerstrokewidth`, `match_dimensions`, `n`, `nc`, `normalize`, `nr`, `orientation`, `overwrite_figure`, `polar`, `quiver`, `ribbon`, `seriesalpha`, `seriescolor`, `seriestype`, `show`, `size`, `smooth`, `subplot`, `tickfont`, `title`, `weights`, `windowtitle`, `x`, `xerror`, `xflip`, `xguide`, `xlims`, `xrotation`, `xscale`, `xticks`, `y`, `yerror`, `yflip`, `yguide`, `ylims`, `yrotation`, `yscale`, `yticks`, `z`, `z`, `zflip`, `zguide`, `zlims`, `zrotation`, `zscale`, `zticks`
 - Supported values for axis: `:auto`, `:left`, `:right`
-- Supported values for linetype: `:bar`, `:box`, `:contour`, `:contour3d`, `:density`, `:heatmap`, `:hexbin`, `:hist`, `:hist2d`, `:hline`, `:line`, `:none`, `:path`, `:path3d`, `:pie`, `:quiver`, `:scatter`, `:scatter3d`, `:shape`, `:steppost`, `:steppre`, `:sticks`, `:surface`, `:violin`, `:vline`, `:wireframe`
+- Supported values for linetype: `:bar`, `:contour`, `:contour3d`, `:density`, `:heatmap`, `:hexbin`, `:hist`, `:hist2d`, `:hline`, `:image`, `:line`, `:none`, `:path`, `:path3d`, `:pie`, `:scatter`, `:scatter3d`, `:shape`, `:steppost`, `:steppre`, `:sticks`, `:surface`, `:vline`, `:wireframe`
 - Supported values for linestyle: `:auto`, `:dash`, `:dashdot`, `:dot`, `:solid`
 - Supported values for marker: `:Plots.Shape`, `:auto`, `:cross`, `:diamond`, `:dtriangle`, `:ellipse`, `:heptagon`, `:hexagon`, `:hline`, `:none`, `:octagon`, `:pentagon`, `:rect`, `:star4`, `:star5`, `:star6`, `:star7`, `:star8`, `:utriangle`, `:vline`, `:xcross`
 - Is `subplot`/`subplot!` supported? Yes
 
-(Automatically generated: 2016-05-03T17:19:52)
+(Automatically generated: 2016-05-24T10:12:21)
