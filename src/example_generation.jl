@@ -226,9 +226,13 @@ PlotExample("Heatmap, categorical axes, and aspect_ratio",
                 :(z = float((1:4)*(1:10)')),
                 :(heatmap(xs, ys, z, aspect_ratio=1))
             ]),
-
-            # TODO: layouts, margin, axis label rotation, title_location
-            # plot(rand(100,6),layout=@layout([a b; c]),title=["A" "B" "C"], title_location=:left, left_margin=[20mm 0mm], bottom_margin=50px, xrotation=60)
+PlotExample("Layouts, margins, label rotation, title location",
+            "",
+            [
+                :(plot(rand(100,6),layout=@layout([a b; c]),title=["A" "B" "C"],
+                title_location=:left, left_margin=[20mm 0mm],
+                bottom_margin=50px, xrotation=60))
+            ]),
 
 ]
 
