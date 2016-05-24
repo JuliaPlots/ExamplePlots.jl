@@ -3,7 +3,7 @@
 
 Just as Gregor Clegane went from [powerful man](http://vignette1.wikia.nocookie.net/gameofthrones/images/b/be/Gregor_Clegane_4x07.jpg/revision/latest?cb=20140707234843) to [unstoppable monster](http://i.imgur.com/qp10sp6.png), Plots is making a transition to a more modular, more powerful, and more customizable visualization platform.
 
-There are two major shifts, which I'll discuss separately: recipes, and layouts.  Note: You'll probably need a recent version of Plots to follow along.  Do:
+There are two major shifts (recipes and layouts) and many more smaller changes.  Internally, things look very different, but I've made serious effort to keep things backward-compatible, when appropriate.  Note: You'll probably need a recent version of Plots to follow along.  Do:
 
 ```julia
 Pkg.add("Plots")
