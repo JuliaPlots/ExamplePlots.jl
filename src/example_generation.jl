@@ -12,7 +12,6 @@ type PlotExample
   exprs::Vector{Expr}
 end
 
-const _heatmaps_are_hists = !isdefined(Plots, :histogram2d)
 
 # the _examples we'll run for each
 const _examples = PlotExample[
@@ -74,10 +73,10 @@ const _examples = PlotExample[
               [
                 :(scatter!(rand(100), markersize=6, c=:orange))
               ]),
-  PlotExample(_heatmaps_are_hists ? "Heatmaps" : "Histogram2D",
+  PlotExample("Histogram2D",
               "",
               [
-                _heatmaps_are_hists ? :(heatmap(randn(10000),randn(10000), nbins=20)) : :(histogram2d(randn(10000), randn(10000), nbins=20))
+                :(histogram2d(randn(10000), randn(10000), nbins=20))
               ]),
   PlotExample("Line types",
               "",
@@ -121,7 +120,7 @@ const _examples = PlotExample[
                 number of columns `nc`), or you can set the layout directly with `layout`.
               """,
               [
-                :(plot(randn(100,5), layout=@layout([a;b;grid(1,3)]), t=[:line :hist :scatter :steppre :bar], nbins=10, leg=false))
+                :(plot(randn(100,5), layout=@layout([a;b;grid(1,3)]), t=[:line :histogram :scatter :steppre :bar], nbins=10, leg=false))
               ]),
   PlotExample("Adding to subplots",
               "Note here the automatic grid layout, as well as the order in which new series are added to the plots.",
