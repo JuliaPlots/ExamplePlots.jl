@@ -12,6 +12,18 @@ type PlotExample
   exprs::Vector{Expr}
 end
 
+function pretty_print_expr(io::IO, expr::Expr)
+    lines = split(string(expr), "\n")
+    start_idx = 1
+    if expr.head == :block
+        lines = lines[2:end-1]
+        start_idx = 5
+    end
+    lines_without_comments = map(str -> split(str,"#")[1][start_idx:end], lines)
+    for line in lines_without_comments
+        println(io, expr)
+    end
+end
 
 # the _examples we'll run for each
 const _examples = PlotExample[
@@ -233,6 +245,12 @@ PlotExample("Layouts, margins, label rotation, title location",
                 title_location=:left, left_margin=[20mm 0mm],
                 bottom_margin=50px, xrotation=60))
             ]),
+PlotExample("Boxplot and Violin series recipes", "", [:(begin
+    using RDatasets
+    singers = dataset("lattice", "singer")
+    boxplot(singers, :VoicePart, :Height, marker = (0.3, :orange, stroke(2)))
+    violin!(singers, :VoicePart, :Height, marker = (0.2, :blue, stroke(0)))
+end)])
 
 ]
 
