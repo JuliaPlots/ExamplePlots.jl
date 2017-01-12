@@ -13,10 +13,10 @@ My favorites: GR for speed, PlotlyJS otherwise, PyPlot as a backup.
 
 If your plot requires... | ... then use...
 ----------- | -----------------
-Lots of features    | Gadfly, PyPlot, Plotly, GR
+Lots of features    | Gadfly, PyPlot, Plotly(JS), GR
 Speed               | GR, PyPlot
-Interactivity       | Plotly, PyPlot, PlotlyJS
-Beauty              | Plotly, Gadfly
+Interactivity       | Plotly(JS), PyPlot
+Beauty              | Plotly(JS), Gadfly
 REPL Plotting       | UnicodePlots
 Standalone GUI      | GR, Immerse, PyPlot, PlotlyJS
 Minimal Dependencies | Plotly, UnicodePlots
