@@ -7,6 +7,7 @@
 ENV["MPLBACKEND"] = "Agg"
 try
   @eval import PyPlot
+catch
 end
 
 # macro test_approx_eq_sigma_eps(A, B, sigma, eps)
