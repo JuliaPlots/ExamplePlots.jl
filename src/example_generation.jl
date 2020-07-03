@@ -273,6 +273,7 @@ function generate_markdown(pkgname::Symbol; skip = [])
   pkgdir = joinpath(IMGDIR, string(pkgname))
   try
     mkdir(pkgdir)
+  catch
   end
 
   # open the markdown file
